@@ -890,7 +890,7 @@ int main(int argc, char *argv[])
             
               RevisedMove = EntityArray[i]->HandleObstacle (EntityArray[i], ScreenArray[NewX][NewY][0]);
               
-              LogStat ("EntityArray[i]->HandleObstacle() returned ", RevisedMove);
+              //LogStat ("EntityArray[i]->HandleObstacle() returned ", RevisedMove);
             
               /*
                * RevisedMove will be either Continue or Stay, no other possibilities
@@ -1323,11 +1323,11 @@ Action BlockedRabbit (struct Entity *this, struct Entity *that)
   
   switch (that->Name) {
     case idGrass:
-      LogMessage ("BlockedRabbit() found some grass, calling that->KillEntity().");
+      //LogMessage ("BlockedRabbit() found some grass, calling that->KillEntity().");
             
       ReturnedError = that->KillEntity (&that);
       
-      LogMessage ("BlockedRabbit() called that->KillEntity().");
+      //LogMessage ("BlockedRabbit() called that->KillEntity().");
             
       if (!ReturnedError) {
         // Yum!
@@ -1384,7 +1384,7 @@ ReturnState KillRabbit (struct Entity **this)
 
   ScreenArray[X][Y] = NULL;   
 
-  LogMessage ("KillRabbit() returning.\n\n");
+  //LogMessage ("KillRabbit() returning.\n\n");
   return ReturnValue;
 }
 
@@ -2120,7 +2120,7 @@ int Rand (int MaxNum)
   }
 
   //printf (Message);
-// */} // void LogMessage (char *Message) 
+// } // void LogMessage (char *Message) 
 
 //void LogStat (char *Message, int Stat)
 //{
