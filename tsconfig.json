@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        
+        "allowJs": false,
+        "allowUnreachableCode": false,
+        "listEmittedFiles": true,
+        "module": "umd",
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "outDir": "./src/js",
+        "preserveConstEnums": true,
+        "removeComments": true,
+        "sourceMap": false,
+        "strictNullChecks": true,
+        "target": "es6"
+        
+    },
+    
+    "include": ["./src/ts/*.ts"]
+}
+
+

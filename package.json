@@ -1,0 +1,29 @@
+{
+  "name": "miecos",
+  "version": "0.0.2",
+  "description": "A-life simulation and related experiments",
+  "main": "miecos.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xarxziux/miecos.git"
+  },
+  "keywords": [
+    "a-life",
+    "c",
+    "javascript",
+    "cellular",
+    "automata"
+  ],
+  "author": "Delaney, Alan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xarxziux/miecos/issues"
+  },
+  "homepage": "https://github.com/xarxziux/miecos#readme",
+  "dependencies": {
+    "prompt": "^1.0.0"
+  }
+}

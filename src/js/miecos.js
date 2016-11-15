@@ -1,3 +1,123 @@
+/*
+ * Miecos - a basic ecosystem simulator
+ * Copyright (C) 2005, 2015 Alan Delaney
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <ncurses.h>
+#include <unistd.h>
+#include <time.h>
+#include <string.h>
+*/
+/*
+ * The following several lines declare tweakable values for use in the program.
+ * Several behaviour patterns are set by use of these values and can markedly 
+ * change the course of a single run.  In future versions these values should
+ * be modifiable by the user at run-time, rather than being compiled right into
+ * the executable, either through command-line arguements, a dialog box within 
+ * the program or by modifying a config file.  However such changes will probably
+ * require a complete re-design of the program so for now the only way to change 
+ * them is to alter the values here and re-compile.
+ */
+
+// ***** Start of tweakable section *****
+
+/*
+ * The MODE value defines how the output will look.  The following modes are currently 
+ * implemented:
+ * 0 (noecho)  - No output is sent to the screen, instead the program runs in the backbround and
+ *               sends back a return value equal to the number of iteratioons it has performed.
+ * 1 (basic)   - The output is in the form of printf statements.
+ * 2 (ncurses) - The Ncurses library is used to provide the output,. this is the default.
+ */
+int          Mode                = 2;
+int          Speed               = 3;
+/*
+ * When DEBUGLEVEL is defined as higher than 0 then the program will copy messages
+ * to OUTPUTFILENAME.  The higher the number, the more output is sent to the file.
+ * Note that this can cause a *major* slowdown of the program as, in its present
+ * form the sub-routine for sending error messages the file will flush all data 
+ * to the file as soon as it is recieved.  This will be changed in a future update
+ * so that this setting can be altered.
+ * 
+ * The (current) levels are (not necessarily fully functional or consistent yet):
+ * DEBUGLEVEL 0 - do not us the error/message reporting capabilities.
+ * DEBUGLEVEL 1 - report boundary-condition failures, returned errors, etc.
+ * DEBUGLEVEL 2 - have each subroutine announce its invocation.
+ * DEBUGLEVEL 3 - report selected key stats.
+ * DEBUGLEVEL 4 - dump a detailed report of EntityArray[] at the end of every iteration.
+ * Note: not yet implemented.
+ */
+//#define            DEGUBLEVEL            0
+
+
+// *** WARNING *** WARNING *** WARNING *** WARNING *** WARNING *** WARNING *** WARNING ***
+// PLEASE SELECT THE VALUES CAREFULLY AS THERE IS CURRENTLY NO/LITTLE ERROR-CHECKING OF THESE VALUES.
+// ENTERING INVALID NUMBERS COULD RESULT IN UNPREDICTABLE BEHAVIOUR.
+
+// Defines the width of the field, should be less than the width of the terminal.
+int          SCREENWIDTH         = 120;          
+
+// Defines the height of the screen, should be less than the height of the actual screen.
+int          SCREENHEIGHT        = 40;           
+
+// Defines the maximum number of entitits allowed, should be less or equal to than (SCREENWIDTH * SCREENHEIGHT) 
+int          MAXPLAYERS          = 4800;         
+
+// Sets the initial number of the three basic entity types, should be less than or equal to MAXPLAYERS in total
+int          INITGRASS           = 300;
+int          INITRABBITS         = 50;
+int          INITFOXES           = 50;
+
+// Sets the maximum size of the gene.  The total number of bytes this could take up is
+// (MAXGENESIZE * MAXPLAYERS * 3).  I don't know what the maximum value could potentially 
+// be but be warned that this aspect is cyurrently VERY inefficient and needs to be optimised
+// in the near future.
+int          MAXGENESIZE         = 80;
+
+// Sets the maximum health for the various entitys.  The higher the value the longer they will "live."
+int          MAXGRASSHEALTH      = 300;
+int          MAXRABBITHEALTH     = 400;
+int          MAXFOXHEALTH        = 400;
+
+// Sets how much of a health bonus is taken when these entitys are eaten.
+int          GRASSNUTRITION      = 20;
+int          RABBITNUTRITION     = 300;
+
+// Sets how many times various functions will try searching for a free space in ScreenArray before giving up.
+int          MAXTRIES            = 200;
+
+// Set how many iterations the while() loop will go through before exiting.
+int          TOTALRUNS           = 0;
+
+// Sets the maximum width and height for a non-ncurses screen
+const int    ARBLIMIT            = 5000;
+
+//Sets how the entities will appear on the screen.
+const char         BLANKCHAR           = '.';
+const char         GRASSCHAR           = '|';
+const char         RABBITCHAR          = 'r';
+const char	   FOXCHAR             = 'F';
+
+// The name for the output file.  If it exists, it will be overwritten.  If not it will be created.
+const char *OUTPUTFILENAME = "./miecos.output.txt";
+
+// ***** End of tweakable section *****
 
 
 
