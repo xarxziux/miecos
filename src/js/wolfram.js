@@ -20,21 +20,21 @@ function getNG(current, key) {
             return getNGRecur(accum.concat(getNextCell(left, top, right[0], key)), top, right[0], right.slice(1));
     }
     function getNextCell(left, top, right, key) {
-        if (left && top && right)
+        if (!left && !top && !right)
             return (Math.floor(key / 1) % 2) === 1;
-        else if (left && top && !right)
-            return (Math.floor(key / 2) % 2) === 1;
-        else if (left && !top && right)
-            return (Math.floor(key / 4) % 2) === 1;
-        else if (left && !top && !right)
-            return (Math.floor(key / 8) % 2) === 1;
-        else if (!left && top && right)
-            return (Math.floor(key / 16) % 2) === 1;
-        else if (!left && top && !right)
-            return (Math.floor(key / 32) % 2) === 1;
         else if (!left && !top && right)
+            return (Math.floor(key / 2) % 2) === 1;
+        else if (!left && top && !right)
+            return (Math.floor(key / 4) % 2) === 1;
+        else if (!left && top && right)
+            return (Math.floor(key / 8) % 2) === 1;
+        else if (left && !top && !right)
+            return (Math.floor(key / 16) % 2) === 1;
+        else if (left && !top && right)
+            return (Math.floor(key / 32) % 2) === 1;
+        else if (left && top && !right)
             return (Math.floor(key / 64) % 2) === 1;
-        else if (!left && !top && !right)
+        else if (left && top && right)
             return (Math.floor(key / 128) % 2) === 1;
         else
             throw new Error('This option should be unreachable');

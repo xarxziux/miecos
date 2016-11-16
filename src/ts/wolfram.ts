@@ -35,21 +35,21 @@ function getNG (current: boolean[], key: number): boolean[] {
     function getNextCell (left: boolean, top: boolean, right: boolean,
         key: number): boolean {
         
-        if (left && top && right)
+        if (!left && !top && !right)
             return (Math.floor (key/1) % 2) === 1;
-        else if (left && top && !right)
-            return (Math.floor (key/2) % 2) === 1;
-        else if (left && !top && right)
-            return (Math.floor (key/4) % 2) === 1;
-        else if (left && !top && !right)
-            return (Math.floor (key/8) % 2) === 1;
-        else if (!left && top && right)
-            return (Math.floor (key/16) % 2) === 1;
-        else if (!left && top && !right)
-            return (Math.floor (key/32) % 2) === 1;
         else if (!left && !top && right)
+            return (Math.floor (key/2) % 2) === 1;
+        else if (!left && top && !right)
+            return (Math.floor (key/4) % 2) === 1;
+        else if (!left && top && right)
+            return (Math.floor (key/8) % 2) === 1;
+        else if (left && !top && !right)
+            return (Math.floor (key/16) % 2) === 1;
+        else if (left && !top && right)
+            return (Math.floor (key/32) % 2) === 1;
+        else if (left && top && !right)
             return (Math.floor (key/64) % 2) === 1;
-        else if (!left && !top && !right)
+        else if (left && top && right)
             return (Math.floor (key/128) % 2) === 1;
         else throw new Error ('This option should be unreachable');
         
