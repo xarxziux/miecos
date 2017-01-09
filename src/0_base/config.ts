@@ -18,11 +18,11 @@ export const config = {
     // INITFOXES: 50,
     
     // Sets the maximum size of the gene.
-    // MAXGENESIZE: 80,
+    MAXGENESIZE: 80,
     
     // Sets the maximum health for the various entitys.  The higher the
-    // value the longer they will "live."
-    // MAXGRASSHEALTH: 300,
+    // value the longer they will "live".
+    MAXGRASSHEALTH: 300,
     MAXRABBITHEALTH: 400,
     // MAXFOXHEALTH: 400,
     
@@ -43,6 +43,9 @@ export const config = {
     GRASSCHAR: '|',
     RABBITCHAR: 'r',
     FOXCHAR: 'F',
+    GRASSCOLOUR: 'green',
+    RABBITCOLOUR: 'brown',
+    
     
     // The name for the output file.  If it exists, it will be overwritten.
     // If not it will be created.

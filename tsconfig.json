@@ -3,16 +3,20 @@
         
         "allowJs": false,
         "allowUnreachableCode": false,
+        "alwaysStrict": true,
         "listEmittedFiles": true,
-        "module": "umd",
+        "listFiles": true,
+        "module": "UMD",
         "moduleResolution": "node",
+        "newLine": "crlf",
         "noEmitOnError": true,
+        "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "outDir": "./src/js",
+        "outDir": "./src/1_tsc/",
         "preserveConstEnums": true,
         "removeComments": true,
         "sourceMap": false,
@@ -21,7 +25,7 @@
         
     },
     
-    "include": ["./src/ts/*.ts"]
+    "include": ["./src/0_base/*.ts"]
 }
 
 
