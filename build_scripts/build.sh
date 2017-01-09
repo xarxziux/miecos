@@ -10,10 +10,10 @@ function action {
     return $status
 }
 
-baseFile=".src/0_base/miecos.ts"
-tscFile=".src/1_tsc/miecos.js"
-bfFile=".src/2_browserified/miecos.by.js"
-ugFile=".src/3_uglified/miecos.uy.js"
+baseFile="./src/0_base/miecos.ts"
+tscFile="./src/1_tsc/miecos.js"
+bfFile="./src/2_browserified/miecos.by.js"
+ugFile="./src/3_uglified/miecos.uy.js"
 outFile="./bin/miecos.js"
 
 buildNum="$(<build_number)"
