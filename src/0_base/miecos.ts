@@ -2,19 +2,73 @@ import { config } from './config';
 import * as utils from './utils';
 import * as entities from './entities';
 
-const field: utils.Entity[][] | null = (function () {
+const plantLayer: utils.Entity[][] | null = (function () {
     
-    const row: utils.Entity[] | null =
+    const row: utils.Entity[] | null = 
             new Array (config.SCREENWIDTH).fill (null);
     return new Array (config.SCREENHEIGHT).fill (row);
     
 }());
 
-// console.log (field.length);
-// console.log (field [0].length);
+const animalLayer: utils.Entity[][] | null = (function () {
+    
+    const row: utils.Entity[] | null = 
+            new Array (config.SCREENWIDTH).fill (null);
+    return new Array (config.SCREENHEIGHT).fill (row);
+    
+}());
 
 // Set the initial population of the field 
-field [100][100] = entities.newRabbit();
+initField();
 
-console.log (field [100][100].settings.name);
-console.log (field [100][100].gene);
+function addEntity (newEnt: Entity): void {
+    
+    let i = config.MAXTRIES;
+    
+    while (i > 0) {
+        
+        let r1 = getRandomInt (0, SCREENWIDTH);
+        let r2 = getRandomInt (0, SCREENHEIGHT);
+        
+        if (field [r1][r2] === null) {
+            
+            field [r1][r2] = newEnt;
+            break;
+            
+        }
+        
+        i++;
+        
+    }
+}
+
+
+function initAnimalLayer (): void {
+    
+    let i = 0;
+    
+    while (i < config.INITRABBITS) {
+        
+        addEntity (entities.newRabbit());
+        i++;
+        
+    }
+}
+
+
+function updateField (): void {
+    
+    let j = 0;
+    
+    while (j < SCREENWIDTH) {
+        
+        let i = 0;
+        
+        while (i < SCREENHEIGHT) {
+            
+            if (field[j][i] === null) break;
+            
+        }
+        
+    }
+}
