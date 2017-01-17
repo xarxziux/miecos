@@ -1,75 +1,66 @@
-/*
 const config = require ('./config.js');
+
+// Basic getters
+// const getHealth = () => this.health;
+const getHealth = () => {console.log ('getHealth() says hello');};
+const getMaxHealth = () => {console.log (this);};
+const getCategory = () => this.category;
+const getName = () => this.name;
+const isSated = () => (this.health >= this.maxHealth);
+const head = 'entity';
 
 const entity = {
     
-    // getHealth: () => this.health,
-    // getMaxHealth: () => this.maxHealth,
-    // update: () => this.update,
-    // getName: () => this.name,
-    // getCategory: () => this.category
+    getHealth,
+    getMaxHealth,
+    getCategory,
+    getName,
+    isSated,
+    head
+    
+};
+
+const growPlant = () => {
+    
+    const newHealth = (this.getHealth() < this.getMaxHealth()) ?
+        this.getHealth() + 1 :
+        this.getMaxHealth();
+    
+    const newPlant = Object.create (entity);
+    newPlant.health = newHealth;
+    newPlant.maxHealth = this.getMaxHealth();
+    newPlant.name = this.getName();
+    newPlant.maturityLevel = this.getMaturityLevel();
+    
+    return newPlant;
+    
+};
+
+const eatPlant = () => {
+    
+    const newPlant = Object.create (entity);
+    newPlant.health = 0;
+    newPlant.maxHealth = this.getMaxHealth();
+    newPlant.maturityLevel = () => this.getMaturityLevel();
+    newPlant.name = this.getName();
+    
+    return newPlant;
     
 };
 
 const plant = Object.create (entity);
 plant.category = 'plant';
-// plant.getMaturityLevel = () => this.maturityLevel,
-// plant.visibility = () => (this._health() >= this._maturityLevel)
+plant.grow = growPlant;
+plant.eat = eatPlant;
+plant.getMaturityLevel = () => this.maturityLevel;
+plant.isVisible = () => (this.health >= this.maturityLevel);
 
-plant.update = () => {
-    
-    // const health = this.getHealth();
-    // const maxHealth = this.getMaxHealth();
-    // const category = this.getCategory();
-    // const 
-    // const name = this.name;
-    
-    const newPlant = Object.create (plant);
-    newPlant.getHealth = () => this.getHealth() + 1;
-    newPlant.maxHealth = this.getMaxHealth;
-    newPlant.getMaturityLevel = this.getMaturityLevel;
-    newPlant.category = this.getCategory;
-    newPlant.name = this.getName;
-    
-}
-*/
+const newGrass = Object.create (plant);
+newGrass.health = config.INITGRASSHEALTH;
+newGrass.maxHealth = config.MAXGRASSHEALTH;
+newGrass.maturityLevel = config.GRASSMATURITYLEVEL;
+newGrass.name = 'grass';
 
-const newGrass = function () {
+exports.getNewGrass = () => newGrass;
     
-    return {
-        
-        getHealth: () => config.INITGRASSHEALTH,
-        getMaxHealth: () => config.MAXGRASSHEALTH,
-        getMaturityLevel: () => config.GRASSMATURITYLEVEL,
-        getCategory: () => 'plant',
-        getName: () => 'grass',
-        update: () => {
-            
-            getHealth: () => (this.getHealth + 1),
-            getMaxHealth: this.getMaxHealth,
-            getMaturityLevel: this.getMaturityLevel,
-            getCategory: this.getCategory,
-            getName: this.getName,
-            update: this.update
-            
-        }
-        
-    };
-    
-    const grassObj = Object.create (plant);
-    
-}
-
-const animal = Object.create (entity);
-
-plant.grow = function () {
-    
-    if (this.health < this.maxHealth) {
-        
-        
-        
-    }
-    
-}
-
 
