@@ -4,6 +4,5 @@
 node_modules/
 *.bak
 *.test.*
-
-
-
+npm-debug.log
+*.bak.*

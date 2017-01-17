@@ -1,74 +1,106 @@
-import { config } from './config';
-import * as utils from './utils';
-import * as entities from './entities';
+// import * as utils from './utils';
+// import { config } from './config';
 
-const plantLayer: utils.Entity[][] | null = (function () {
+enum Direction {
     
-    const row: utils.Entity[] | null = 
-            new Array (config.SCREENWIDTH).fill (null);
-    return new Array (config.SCREENHEIGHT).fill (row);
+    Stay = 0,
+    Up,
+    UpRight,
+    Right,
+    DownRight,
+    Down,
+    DownLeft,
+    Left,
+    UpLeft
     
-}());
+}
 
-const animalLayer: utils.Entity[][] | null = (function () {
+interface EntType {
     
-    const row: utils.Entity[] | null = 
-            new Array (config.SCREENWIDTH).fill (null);
-    return new Array (config.SCREENHEIGHT).fill (row);
+    health: number;
+    readonly startHealth: number;
+    readonly maxHealth: number;
+    readonly category: string;
+    readonly name: string;
+    readonly appearance: string;
     
-}());
+}
 
-// Set the initial population of the field 
-initField();
+interface AnimalType extends entType {
+    
+    readonly getMove (): Direction;
+    readonly feed (x: number): AnimalType;
+    readonly breed (): AnimalType;
+    readonly move (): AnimalType;
+    
+}
 
-function addEntity (newEnt: Entity): void {
+const entity: entType = {
     
-    let i = config.MAXTRIES;
+    health: this.health,
+    maxhealth: this.maxhealth,
+    category: this.category,
+    name: this.name,
+    appearance: this.appearance
     
-    while (i > 0) {
+};
+
+const animal: AnimalType = Object.create (entity);
+
+/*
+animal
+{
+    
+    move: : this.move;
+    
+    
+};
+
+const rabbitSettings: utils.Fixed = {
+    
+    category: 'herbivore',
+    name: 'rabbit',
+    appearance: config.RABBITCOLOUR,
+    maxHealth: config.MAXRABBITHEALTH
+    
+}
+
+const grassSettings: utils.Fixed = {
+    
+    category: 'plant',
+    name: 'grass',
+    appearance: config.GRASSCOLOUR,
+    maxHealth: config.MAXGRASSHEALTH
+    
+}
+
+
+export function newRabbit(): utils.Entity {
+    
+    return {
         
-        let r1 = getRandomInt (0, SCREENWIDTH);
-        let r2 = getRandomInt (0, SCREENHEIGHT);
-        
-        if (field [r1][r2] === null) {
-            
-            field [r1][r2] = newEnt;
-            break;
-            
-        }
-        
-        i++;
+        health: config.MAXRABBITHEALTH/2,
+        sated: false,
+        gene: utils.getGeneString(),
+        visible: true,
+        settings: rabbitSettings
         
     }
 }
 
 
-function initAnimalLayer (): void {
+export function newGrass(): utils.Entity {
     
-    let i = 0;
-    
-    while (i < config.INITRABBITS) {
+    return {
         
-        addEntity (entities.newRabbit());
-        i++;
+        health: config.MAXGRASSHEALTH/2,
+        sated: false,
+        gene: '',
+        visible: true,
+        settings: grassSettings
         
     }
 }
+*/
 
 
-function updateField (): void {
-    
-    let j = 0;
-    
-    while (j < SCREENWIDTH) {
-        
-        let i = 0;
-        
-        while (i < SCREENHEIGHT) {
-            
-            if (field[j][i] === null) break;
-            
-        }
-        
-    }
-}

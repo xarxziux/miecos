@@ -1,85 +1,44 @@
 #!/bin/bash
 
-function action {
-    "$@"
-    local status=$?
-    if [ $status -ne 0 ]
-    then
-        echo "Error with $1" >&2
-    fi
-    return $status
-}
+set -e
 
-baseFile="./src/0_base/miecos.ts"
-tscFile="./src/1_tsc/miecos.js"
-bfFile="./src/2_browserified/miecos.by.js"
-ugFile="./src/3_uglified/miecos.uy.js"
-outFile="./bin/miecos.js"
+base_file="./src/0_base/miecos.ts"
+tsc_file="./src/1_tsc/miecos.js"
+bf_file="./src/2_browserified/miecos.by.js"
+ug_file="./src/3_uglified/miecos.uy.js"
+out_file="./bin/miecos.js"
 
-buildNum="$(<build_number)"
-((buildNum++))
-echo -n $buildNum > build_number
+build_num="$(<build_number)"
+build_num=$((buildNum + 1))
+echo -n "${build_num}" > build_number
 
-while true
-do
-    
-    if [ $baseFile -ot $outFile ]
-    then
-        echo Source file is up-to-date.
-        echo
-        break
-    fi
-    
-    tsc
-    
-    if [ $? -ne 0 ]
-    then
-        break;
-    fi
-    
-    jshint $tscFile
-    
-    if [ $? -ne 0 ]
-    then
-        break;
-    fi
-    
-    browserify $tscFile -o $bfFile
-    
-    if [ $? -ne 0 ]
-    then
-        break;
-    fi
-    
-    uglifyjs $bfFile -c -m -o $ugFile
-    
-    if [ $? -ne 0 ]
-    then
-        break;
-    fi
-    
-    cp -v $ugFile $outFile
-    
-    echo 
-    echo Compilation successful.  Please enter a commit message.
-    echo An empty string skips this step:
-    read -p "> " commitMsg
-    
-    if [ $? -ne 0 ] || [ -z "$commitMsg" ]
-    then
-        break;
-    fi
-    
-    versionNum="$(npm list --depth=0 | \
-            grep miecos | \
-            grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')"
-    commitStr="$versionNum.$buildNum: $commitMsg"
-    npm --no-git-tag-version version patch
-    git add -A
-    git commit -m "$commitStr"
+if test "${base_file}" -ot "${out_file}"
+then
+    echo Source file is up-to-date.
+    echo
     break
-    
-done
+fi
 
-# Empty echo to avoid NPM having fits if the last action returned an error
+tsc
+jshint "${tsc_file}"
+browserify "${tsc_file}" -o "${bf_file}"
+uglifyjs "${bf_file}" -c -m -o "${ug_file}"
+cp -v "${ug_file} "${out_file}
+
 echo 
+echo Compilation successful.  Please enter a commit message.
+echo An empty string skips this step:
+read -p "> " commit_msg
+
+if test -z "${commit_msg}"
+then
+    exit
+fi
+
+version_num="$(npm list --depth=0 | \
+        grep miecos | \
+        grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')"
+commit_str="${version_num}.${build_num}: $commit_msg"
+npm --no-git-tag-version version patch
+git add -A
+git commit -m "${commitStr}"

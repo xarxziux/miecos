@@ -1,5 +1,60 @@
-import * as utils from './utils';
-import { config } from './config';
+// import * as utils from './utils';
+// import { config } from './config';
+
+enum Direction {
+    
+    Stay = 0,
+    Up,
+    UpRight,
+    Right,
+    DownRight,
+    Down,
+    DownLeft,
+    Left,
+    UpLeft
+    
+}
+
+interface EntType {
+    
+    health: number;
+    readonly startHealth: number;
+    readonly maxHealth: number;
+    readonly category: string;
+    readonly name: string;
+    readonly appearance: string;
+    
+}
+
+interface AnimalType extends entType {
+    
+    readonly getMove (): Direction;
+    readonly feed (x: number): AnimalType;
+    readonly breed (): AnimalType;
+    readonly move (): AnimalType;
+    
+}
+
+const entity: entType = {
+    
+    health: this.health,
+    maxhealth: this.maxhealth,
+    category: this.category,
+    name: this.name,
+    appearance: this.appearance
+    
+};
+
+const animal: AnimalType = Object.create (entity);
+
+/*
+animal
+{
+    
+    move: : this.move;
+    
+    
+};
 
 const rabbitSettings: utils.Fixed = {
     
@@ -46,6 +101,6 @@ export function newGrass(): utils.Entity {
         
     }
 }
-
+*/
 
 
