@@ -1,66 +1,56 @@
 const config = require ('./config.js');
 
-// Basic getters
-// const getHealth = () => this.health;
-const getHealth = () => {console.log ('getHealth() says hello');};
-const getMaxHealth = () => {console.log (this);};
-const getCategory = () => this.category;
-const getName = () => this.name;
-const isSated = () => (this.health >= this.maxHealth);
-const head = 'entity';
-
 const entity = {
     
-    getHealth,
-    getMaxHealth,
-    getCategory,
-    getName,
-    isSated,
-    head
-    
-};
-
-const growPlant = () => {
-    
-    const newHealth = (this.getHealth() < this.getMaxHealth()) ?
-        this.getHealth() + 1 :
-        this.getMaxHealth();
-    
-    const newPlant = Object.create (entity);
-    newPlant.health = newHealth;
-    newPlant.maxHealth = this.getMaxHealth();
-    newPlant.name = this.getName();
-    newPlant.maturityLevel = this.getMaturityLevel();
-    
-    return newPlant;
-    
-};
-
-const eatPlant = () => {
-    
-    const newPlant = Object.create (entity);
-    newPlant.health = 0;
-    newPlant.maxHealth = this.getMaxHealth();
-    newPlant.maturityLevel = () => this.getMaturityLevel();
-    newPlant.name = this.getName();
-    
-    return newPlant;
-    
+    isSated: function () {
+        
+        return this.health >= this.maxHealth;
+        
+    },
+    base: 'entity'
 };
 
 const plant = Object.create (entity);
 plant.category = 'plant';
-plant.grow = growPlant;
-plant.eat = eatPlant;
-plant.getMaturityLevel = () => this.maturityLevel;
-plant.isVisible = () => (this.health >= this.maturityLevel);
-
-const newGrass = Object.create (plant);
-newGrass.health = config.INITGRASSHEALTH;
-newGrass.maxHealth = config.MAXGRASSHEALTH;
-newGrass.maturityLevel = config.GRASSMATURITYLEVEL;
-newGrass.name = 'grass';
-
-exports.getNewGrass = () => newGrass;
+plant.grow = function() {
     
+    const newPlant = Object.create (Object.getPrototypeOf (this));
+    newPlant.health = Math.min (this.health + 1, this.maxHealth);
+    
+    return newPlant;
+    
+};
+plant.eat = function() {
+    
+    const newPlant = Object.create (Object.getPrototypeOf (this));
+    newPlant.health = 0;
+    
+    return newPlant;
+    
+};
+plant.isVisible = function() {
+    
+    return this.health >= this.maturityLevel;
+    
+};
+
+const grass = Object.create (plant);
+grass.maxHealth = config.MAXGRASSHEALTH;
+grass.maturityLevel = config.GRASSMATURITYLEVEL;
+grass.name = 'grass';
+
+function createGrass () {
+    
+    const newGrass = Object.create (grass);
+    newGrass.health = config.INITGRASSHEALTH;
+    
+    return newGrass;
+    
+}
+
+module.exports = {
+    
+    createGrass
+    
+};
 
