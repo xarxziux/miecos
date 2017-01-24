@@ -1,19 +1,43 @@
+'use strict';
 const ents = require ('./entities.js');
-const myBlade = ents.getNewGrass();
-console.log (typeof myBlade);
+const config = require ('./config.js');
+// const myBlade = ents.createGrass();
+const plantLevel = Array (config.SCREENWIDTH * config.SCREENHEIGHT).fill (null);
+// const animalLevel = initField (config.SCREENWIDTH, config.SCREENHEIGHT);
+initField (plantLevel, config.INITGRASS);
 
+module.exports = plantLevel;
 
-console.log ('myBlade =', JSON.stringify (myBlade));
+function findEmpty (arr) {
+    
+    let i = 0;
+    let guess = Math.random() * arr.length;
+    
+    while (i < config.MAXTRIES) {
+        
+        if (arr [guess] === null)
+            return guess;
+        i = i + 1;
+        
+    }
+    
+    return null;
 
-console.log ('myBlade.getHealth() = ', myBlade.getHealth());
-console.log ('myBlade.getMaxHealth() = ', myBlade.getMaxHealth());
-console.log ('myBlade.health = ', myBlade.health);
-console.log ('myBlade.getMaturityLevel = ', myBlade.getMaturityLevel());
-console.log ('prototype = ', JSON.stringify (Object.getPrototypeOf (myBlade)));
-console.log ('myBlade.isVisible() = ', myBlade.isVisible());
-console.log ('myBlade.category = ', myBlade.category);
-console.log ('myBlade.head = ', myBlade.head);
+}
 
-const newBlade = myBlade.
-
+function initField (arr, grassCount) {
+    
+    let i = 0;
+    
+    while (i < grassCount) {
+        
+        let nextGuess = findEmpty (arr);
+        
+        if (nextGuess === null) continue;
+        
+        arr [nextGuess] = ents.createGrass();
+        i = i + 1;
+        
+    }
+}
 

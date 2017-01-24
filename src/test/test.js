@@ -1,8 +1,10 @@
+'use strict';
 /* globals describe: false */
 /* globals it: false */
 
 const assert = require('chai').assert;
-const entities = require ('../src/0_base/entities.js');
+const entities = require ('../0_base/entities.js');
+const miecos = require ('../0_base/miecos.js');
 const blade1 = entities.createGrass();
 const initHealth = blade1.health;
 const blade2 = blade1.grow();
@@ -19,6 +21,15 @@ describe ('Testing health', function () {
     });
 });
 
+describe ('Testing main loop', function () {
+    
+    it ('return an array', function () {
+        
+        
+        // const arrLength = miecos.filter (function (x) {return !!x;}).length;
+        // assert.strictEqual (arrLength, 80);
 
+    });
+});
 
 

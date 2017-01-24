@@ -17,14 +17,14 @@ exports.INITRABBITS = 50;
 exports.INITFOXES = 50;
 
 // Sets the maximum size of the gene.
-exports.MAXGENESIZE = 80;
+// exports.MAXGENESIZE = 80;
 
 // Sets the maximum health for the various entitys.  The higher the
 // value the longer they will "live".
 exports.MAXGRASSHEALTH = 300;
-exports.MAXRABBITHEALTH = 400;
+// exports.MAXRABBITHEALTH = 400;
 exports.INITGRASSHEALTH = 150;
-exports.INITRABBITHEALTH = 300;
+// exports.INITRABBITHEALTH = 300;
 exports.GRASSMATURITYLEVEL = 100;
 // MAXFOXHEALTH = 400;
 
@@ -43,13 +43,13 @@ exports.TOTALRUNS = 0;
 //Sets how the entities will appear on the screen.
 exports.BLANKCHAR = '.';
 exports.GRASSCHAR = '|';
-exports.RABBITCHAR = 'r';
-exports.FOXCHAR = 'F';
+// exports.RABBITCHAR = 'r';
+// exports.FOXCHAR = 'F';
 exports.GRASSCOLOUR = 'green';
-exports.RABBITCOLOUR = 'brown';
+// exports.RABBITCOLOUR = 'brown';
 
 
 // The name for the output file.  If it exists, it will be overwritten.
 // If not it will be created.
-exports.OUTPUTFILENAME = './miecos.output.txt';
+exports.OUTPUTFILENAME = './logs/miecos.output.txt';
 
