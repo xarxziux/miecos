@@ -1,10 +1,10 @@
 // Defines the width of the field, should be less than the width of the
 // screen.
-exports.SCREENWIDTH = 640;
+exports.SCREENWIDTH = 200;
 
 // Defines the height of the field, should be less than the height of
 // the screen.
-exports.SCREENHEIGHT = 480;
+exports.SCREENHEIGHT = 150;
 
 // Defines the maximum number of entities allowed, should be less or
 // equal to than (SCREENWIDTH * SCREENHEIGHT)
@@ -12,7 +12,7 @@ exports.MAXPLAYERS = 1000;
 
 // Sets the initial number of the three basic entity types, should be
 // less than or equal to MAXPLAYERS in total
-exports.INITGRASS = 300;
+exports.INITGRASS = 10;
 exports.INITRABBITS = 50;
 exports.INITFOXES = 50;
 
@@ -34,7 +34,7 @@ exports.GRASSNUTRITION = 20;
 
 // Sets how many times various functions will try searching for a free
 // space in ScreenArray before giving up.
-exports.MAXTRIES = 200;
+exports.MAXTRIES = 5;
 
 // Set how many iterations the while() loop will go through before
 // exiting.

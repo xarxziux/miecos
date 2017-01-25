@@ -38,6 +38,7 @@ const grass = Object.create (plant);
 grass.maxHealth = config.MAXGRASSHEALTH;
 grass.maturityLevel = config.GRASSMATURITYLEVEL;
 grass.name = 'grass';
+grass.colour = '#00ff00';
 
 function createGrass () {
     
