@@ -27,6 +27,7 @@ exports.INITGRASSHEALTH = 150;
 // exports.INITRABBITHEALTH = 300;
 exports.GRASSMATURITYLEVEL = 100;
 // MAXFOXHEALTH = 400;
+exports.GRASSSPAWNHEALTH;
 
 // Sets how much of a health bonus is taken when these entitys are eaten.
 exports.GRASSNUTRITION = 20;

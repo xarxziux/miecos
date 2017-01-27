@@ -1,5 +1,10 @@
 # MIECOS CHANGE LOG #
 
+## 2017-01-27
+
+### Changed
+- miecos.js: redesign of main module.  The plant array is now implemented as a series of separate, side-effect heavy functions instead of object methods.
+
 ## 2017-01-09
 
 ### Changed
