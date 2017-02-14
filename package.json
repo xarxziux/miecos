@@ -4,7 +4,7 @@
   "description": "A-life simulation and related experiments",
   "main": "miecos.js",
   "scripts": {
-    "test": "jshint ./src/test/test.js && mocha ./src/test/test.js",
+    "test": "jshint ./src/test/test.js && node ./src/test/test.js",
     "build": "bash build_scripts/build.sh || echo Compilation failed"
   },
   "repository": {
@@ -26,12 +26,6 @@
   "homepage": "https://github.com/xarxziux/miecos#readme",
   "devDependencies": {
     "browserify": "^13.3.0",
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "typescript": "^2.1.4",
-    "uglify-js": "^2.7.5"
-  },
-  "dependencies": {
-    "p5": "^0.5.6"
+    "tape": "^4.6.3"
   }
 }
