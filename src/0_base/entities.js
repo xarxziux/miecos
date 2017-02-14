@@ -52,14 +52,13 @@ grass.spawnHealth = config.GRASSSPAWNHEALTH;
 grass.maxHealth = config.MAXGRASSHEALTH;
 grass.maturityLevel = config.GRASSMATURITYLEVEL;
 grass.name = 'grass';
-grass.colour = '#00ff00';
+grass.colour = config.GRASSCOLOUR;
 
 
 function createGrass () {
     
     const newGrass = Object.create (grass);
     newGrass.health = config.INITGRASSHEALTH;
-    
     return newGrass;
     
 }

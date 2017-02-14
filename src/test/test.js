@@ -1,11 +1,13 @@
 'use strict';
 /* globals describe: false */
 /* globals it: false */
+/* jshint expr: true */
 
 const config = require ('../0_base/config.js');
-const assert = require('chai').assert;
+// const assert = require('chai').assert;
+const expect = require('chai').expect;
 const entities = require ('../0_base/entities.js');
-const miecos = require ('../0_base/fields.js');
+const miecos = require ('../0_base/miecos.js');
 const blade1 = entities.createGrass();
 const initHealth = blade1.health;
 const blade2 = blade1.grow();
@@ -15,9 +17,9 @@ describe ('Testing entities module', function () {
     
     it ('should contain a health property', function() {
         
-        assert.strictEqual (blade1.health, initHealth);
-        assert.strictEqual (blade2.health, initHealth + 1);
-        assert.strictEqual (blade3.health, 0);
+        expect (blade1.health).to.equal (initHealth);
+        expect (blade2.health).to.equal (initHealth + 1);
+        expect (blade3.health).to.equal (0);
         
     });
 });
@@ -37,32 +39,32 @@ describe ('Testing field module', function () {
     
     it ('should return a function', function () {
         
-        assert.strictEqual (typeof miecos.plantLevel, 'function');
+        expect (miecos.plantLevel).to.be.function;
         
     });
     
     it ('should return an array when called', function () {
         
-        assert.strictEqual (Array.isArray (plants), true);
+        expect (plants).to.be.array;
         
     });
     
     it ('should be a non-empty array', function () {
         
-        assert.strictEqual (i < pLen, true);
+        expect (i).to.be.below (pLen);
         
     });
     
     it ('should return a grass element', function () {
         
-        assert.strictEqual (plants [i].name, 'grass');
+        expect (plants [i].name).to.equal ('grass');
         
     });
     
     it ('should have two members', function () {
         
-        assert.strictEqual (typeof plants.grow, 'function');
-        assert.strictEqual (typeof plants.render, 'function');
+        expect (plants.grow).to.be.function;
+        expect (plants.render).to.be.function;
         
     });
 });

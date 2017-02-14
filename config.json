@@ -1,0 +1,22 @@
+{
+    "SCREENWIDTH": "640",
+    "SCREENHEIGHT": "480",
+    "MAXPLAYERS": "1000",
+    "INITGRASS": "10",
+    "INITRABBITS": "50",
+    "INITFOXES": "50",
+    "MAXGENESIZE": "80",
+    "MAXGRASSHEALTH": "300",
+    "INITGRASSHEALTH": "150",
+    "GRASSMATURITYLEVEL": "100",
+    "GRASSSPAWNHEALTH": "100",
+    "GRASSNUTRITION": "20",
+    "MAXTRIES": "5",
+    "TOTALRUNS": "0",
+    "BLANKCHAR": "'.'",
+    "GRASSCHAR": "'|'",
+    "GRASSCOLOUR": [0, 255, 0, 255],
+    "OUTPUTFILENAME": "'./logs/miecos.output.txt'",
+    "GRASSSPAWNDISTANCE": "50",
+    "GRASSSPAWNNUMBER": "3"
+}

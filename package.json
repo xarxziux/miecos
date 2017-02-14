@@ -1,11 +1,11 @@
 {
   "name": "miecos",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "A-life simulation and related experiments",
   "main": "miecos.js",
   "scripts": {
     "test": "jshint ./src/test/test.js && mocha ./src/test/test.js",
-    "build": "bash build_scripts/build.sh"
+    "build": "bash build_scripts/build.sh || echo Compilation failed"
   },
   "repository": {
     "type": "git",

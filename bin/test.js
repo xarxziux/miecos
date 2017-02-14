@@ -1,0 +1,1 @@
+window.testFun = () => 'Yes it works!';
