@@ -42,7 +42,7 @@ function flattenArrays (arrList) {
             return [0, 0, 0, 0];
             
         })
-        .reduce ((a, x) => (a.concat (x)));
+        .reduce ((a, x) => (a.concat (x)), []);
     
 }
 

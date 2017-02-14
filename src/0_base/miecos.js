@@ -13,16 +13,19 @@ const indexToRC = utils.getIndexToRowCol.bind (
 const plantLayer = Array (config.SCREENWIDTH * config.SCREENHEIGHT)
         .fill (null);
 
-initLayer (plantLayer, [{
+function init () {
     
-    init: ents.createGrass,
-    count: config.INITGRASS
+    initLayer (plantLayer, [{
+        
+        init: ents.createGrass,
+        count: config.INITGRASS
+        
+    }]);
     
-}]);
-
-
-output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
-output.update (plantLayer);
+    output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
+    output.update (plantLayer);
+    
+}
 
 
 function initLayer (layer, entList) {
@@ -129,3 +132,5 @@ function getRandomInt(_min, max) {
     
 }
 
+
+module.exports = init;

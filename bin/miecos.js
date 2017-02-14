@@ -229,16 +229,19 @@ const indexToRC = utils.getIndexToRowCol.bind (
 const plantLayer = Array (config.SCREENWIDTH * config.SCREENHEIGHT)
         .fill (null);
 
-initLayer (plantLayer, [{
+function init () {
     
-    init: ents.createGrass,
-    count: config.INITGRASS
+    initLayer (plantLayer, [{
+        
+        init: ents.createGrass,
+        count: config.INITGRASS
+        
+    }]);
     
-}]);
-
-
-output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
-output.update (plantLayer);
+    output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
+    output.update (plantLayer);
+    
+}
 
 
 function initLayer (layer, entList) {
@@ -346,6 +349,8 @@ function getRandomInt(_min, max) {
 }
 
 
+module.exports = init;
+
 },{"./canvas.js":1,"./config.js":2,"./entities.js":3}],5:[function(require,module,exports){
 function getRowColToIndex (maxRow, maxCol, row, col) {
     
@@ -391,7 +396,7 @@ function flattenArrays (arrList) {
             return [0, 0, 0, 0];
             
         })
-        .reduce ((a, x) => (a.concat (x)));
+        .reduce ((a, x) => (a.concat (x)), []);
     
 }
 
