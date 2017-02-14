@@ -2,7 +2,7 @@
 /* globals it: false */
 
 const assert = require('chai').assert;
-const entities = require ('../src/0_base/entities.js');
+const entities = require ('../0_base/entities.js');
 const blade1 = entities.createGrass();
 const initHealth = blade1.health;
 const blade2 = blade1.grow();
