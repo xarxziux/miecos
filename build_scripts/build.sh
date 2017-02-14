@@ -16,7 +16,7 @@ modules=( \
 )
 
 build_num="$(<build_number)"
-build_num=$((buildNum + 1))
+build_num=$((build_num + 1))
 echo -n "${build_num}" > build_number
 
 if test "${base_file}" -ot "${out_file}"
