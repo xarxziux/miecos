@@ -1,72 +1,104 @@
-'use strict';
-/* globals describe: false */
-/* globals it: false */
-/* jshint expr: true */
+const test = require ('tape');
+// const entities = require ('../0_base/entities.js');
+const utils = require ('../0_base/utils.js');
+console.log (JSON.stringify (utils));
+// const utilsInt = utils.getInternal();
 
-const config = require ('../0_base/config.js');
-// const assert = require('chai').assert;
-const expect = require('chai').expect;
-const entities = require ('../0_base/entities.js');
-const miecos = require ('../0_base/miecos.js');
-const blade1 = entities.createGrass();
-const initHealth = blade1.health;
-const blade2 = blade1.grow();
-const blade3 = blade1.eat();
-
-describe ('Testing entities module', function () {
+test ('Testing toroidal() function', function (t) {
     
-    it ('should contain a health property', function() {
-        
-        expect (blade1.health).to.equal (initHealth);
-        expect (blade2.health).to.equal (initHealth + 1);
-        expect (blade3.health).to.equal (0);
-        
-    });
+    const toro = utils.getInternal().toroidal;
+    
+    t.plan (10);
+    t.equal (typeof toro, 'function',
+            'utils.getInternal().toroidal is a function and...');
+    t.equal (toro (7, 18), 7);
+    t.equal (toro (100, 100), 0);
+    t.equal (toro (567, 4), 3);
+    t.equal (toro (-7, 18), 11);
+    t.equal (toro (45.7, 3.6), 2);
+    t.equal (toro (999.999, 9), 1);
+    t.equal (toro (-999.999, 9), 8);
+    t.equal (toro (-12345678, 15), 12);
+    t.equal (toro (-12345677.8, 12344.5), 11667);
+    t.end();
+    
 });
 
-describe ('Testing field module', function () {
+test ('Testing getRowColToIndex() function', function (t) {
     
-    const plants = miecos.plantLevel (config.INITGRASS);
-    let i = 0;
-    const pLen = plants.length;
+    const rc2I = utils.getRowColToIndex;
     
-    while (i < pLen) {
-        
-        if (plants [i] !== undefined) break;
-        i = i + 1;
-        
-    }
+    t.plan (10);
+    t.equal (typeof rc2I, 'function',
+            'utils.getRowColToIndex is a function and...');
+    t.equal (rc2I (100, 100, 0, 0), 0);
+    t.equal (rc2I (100, 100, 6, 0), 6);
+    t.equal (rc2I (100, 100, 6, 6), 606);
+    t.equal (rc2I (100, 100, 6, -6), 9406);
+    t.equal (rc2I (100, 100, 100, 100), 0);
+    t.equal (rc2I (100, 100, 101, 100), 1);
+    t.equal (rc2I (100, 100, 1, 100), 1);
+    t.equal (rc2I (100, 100, 100, 101), 100);
+    t.equal (rc2I (100, 100, -100006, -100006), 9494);
+    t.end();
     
-    it ('should return a function', function () {
-        
-        expect (miecos.plantLevel).to.be.function;
-        
-    });
-    
-    it ('should return an array when called', function () {
-        
-        expect (plants).to.be.array;
-        
-    });
-    
-    it ('should be a non-empty array', function () {
-        
-        expect (i).to.be.below (pLen);
-        
-    });
-    
-    it ('should return a grass element', function () {
-        
-        expect (plants [i].name).to.equal ('grass');
-        
-    });
-    
-    it ('should have two members', function () {
-        
-        expect (plants.grow).to.be.function;
-        expect (plants.render).to.be.function;
-        
-    });
 });
 
+test ('Testing getIndexToRowCol() function', function (t) {
+    
+    const i2RC = utils.getIndexToRowCol;
+    
+    t.plan (10);
+    t.equal (typeof i2RC, 'function',
+            'utils.getIndexToRowCol is a function and...');
+    t.deepEqual (i2RC (100, 100, 0), {row: 0, col: 0});
+    t.deepEqual (i2RC (100, 100, 6), {row: 6, col: 0});
+    t.deepEqual (i2RC (100, 100, 606), {row: 6, col: 6});
+    t.deepEqual (i2RC (100, 100, 9406), {row: 6, col: 94});
+    t.deepEqual (i2RC (100, 100, 10000), {row: 0, col: 0});
+    t.deepEqual (i2RC (100, 100, 10001), {row: 1, col: 0});
+    t.deepEqual (i2RC (100, 100, 10100), {row: 0, col: 1});
+    t.deepEqual (i2RC (100, 100, -1), {row: 99, col: 99});
+    t.deepEqual (i2RC (100, 100, 123456789), {row: 89, col: 67});
+    t.end();
+    
+});
 
+test ('Test flattenArrays() function', function (t) {
+    
+    const fa = utils.flattenArrays;
+    const red = {colours: [254, 1, 2, 253]};
+    const green = {colours: [3, 4, 5, 252]};
+    const blue = {colours: [6, 7, 251, 250]};
+    const grey = {colours: [249, 248, 247, 246]};
+    const blank = [0, 0, 0, 0];
+    const arr1 = [ null,  null,  null,  null];
+    const arr2 = [ blue,  null,  blue,  null];
+    const arr3 = [ null,  null,  null,   red];
+    const arr4 = [ null,  grey,  null,  null];
+    const arr5 = [green,  null,  null, green];
+    
+    t.plan (10);
+    t.equal (typeof fa, 'function',
+            'utils.flattenArrays is a function and...');
+    t.deepEqual (fa (arr1), new Uint8ClampedArray (
+            [].concat (blank, blank, blank, blank)));
+    t.deepEqual (fa (arr2),new Uint8ClampedArray (
+            [].concat (blue.colours, blank, blue.colours, blank)));
+    t.deepEqual (fa (arr5, arr2), new Uint8ClampedArray (
+            [].concat (green.colours, blank, blue.colours, green.colours)));
+    t.deepEqual (fa (arr4, arr3, arr5), new Uint8ClampedArray (
+            [].concat (green.colours, grey.colours, blank, red.colours)));
+    t.deepEqual (fa (arr4, arr2, arr1, arr3, arr5), new Uint8ClampedArray (
+            [].concat (blue.colours, grey.colours, blue.colours, red.colours)));
+    t.deepEqual (fa (arr1, arr5, arr3, arr4, arr2), new Uint8ClampedArray (
+            [].concat (green.colours, grey.colours, blue.colours, green.colours)));
+    t.deepEqual (fa (arr3, arr2, arr1, arr5, arr4), new Uint8ClampedArray (
+            [].concat (blue.colours, grey.colours, blue.colours, red.colours)));
+    t.deepEqual (fa (arr2, arr1, arr5, arr4, arr3), new Uint8ClampedArray (
+            [].concat (blue.colours, grey.colours, blue.colours, green.colours)));
+    t.deepEqual (fa (arr5, arr3, arr1, arr4, arr2), new Uint8ClampedArray (
+            [].concat (green.colours, grey.colours, blue.colours, green.colours)));
+    t.end();
+    
+});

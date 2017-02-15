@@ -1,5 +1,12 @@
 # MIECOS CHANGE LOG #
 
+## 2017-02-14
+
+### Changed
+- Added unit tests for utils module.
+- Removed unused TypeScript files.
+- package.json: updated package list.
+
 ## 2017-01-27
 
 ### Changed
@@ -20,5 +27,3 @@
 
 ### Added
 - Initial commit
-
-

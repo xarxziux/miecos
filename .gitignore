@@ -1,9 +1,7 @@
-/.settings/
 /testing/
-/.project
 node_modules/
+/archive/
 *.bak
 *.test.*
 npm-debug.log
 *.bak.*
-

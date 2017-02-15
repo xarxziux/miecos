@@ -17,18 +17,21 @@ function getIndexToRowCol (maxRow, maxCol, _index) {
 }
 
 
-function toroidal (x, max) {
+function toroidal (_x, _max) {
     
+    const x = Math.round (_x);
+    const max = Math.round (_max);
     if (x >= 0) return x % max;
-    return 100 + (x % max);
+    return max + (x % max);
     
 }
 
 
-function flattenArrays (arrList) {
+function flattenArrays (...arrList) {
     
-    return new Uint8ClampedArray (arrList [0].length)
-        .map (function (_, i) {
+    return new Uint8ClampedArray (Array (arrList [0].length)
+        .fill (void 0)
+        .map (function (x, i) {
             
             let j = 0;
             
@@ -42,7 +45,7 @@ function flattenArrays (arrList) {
             return [0, 0, 0, 0];
             
         })
-        .reduce ((a, x) => (a.concat (x)), []);
+        .reduce ((a, x) => (a.concat (x)), []));
     
 }
 
@@ -51,7 +54,11 @@ module.exports = {
     
     getRowColToIndex,
     getIndexToRowCol,
-    flattenArrays
+    flattenArrays,
     
+    getInternal: () => ({
+        
+        toroidal
+        
+    })
 };
-
