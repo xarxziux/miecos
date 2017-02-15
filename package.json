@@ -1,10 +1,10 @@
 {
   "name": "miecos",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A-life simulation and related experiments",
   "main": "miecos.js",
   "scripts": {
-    "test": "jshint ./src/test/test.js && node ./src/test/test.js",
+    "test": "jshint ./src/test/test.js && node ./src/test/test.js | tap-dot",
     "build": "bash build_scripts/build.sh || echo Compilation failed"
   },
   "repository": {
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/xarxziux/miecos#readme",
   "devDependencies": {
     "browserify": "^13.3.0",
+    "tap-dot": "^1.0.5",
     "tape": "^4.6.3"
   }
 }
