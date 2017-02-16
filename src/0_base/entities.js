@@ -65,7 +65,14 @@ function createGrass () {
 
 module.exports = {
     
-    createGrass
+    createGrass,
     
+    getInternal: () => ({
+        
+        entity,
+        plant,
+        grass
+        
+    })
 };
 

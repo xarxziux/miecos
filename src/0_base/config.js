@@ -12,7 +12,7 @@ exports.MAXPLAYERS = 1000;
 
 // Sets the initial number of the three basic entity types, should be
 // less than or equal to MAXPLAYERS in total
-exports.INITGRASS = 10;
+exports.INITGRASS = 100;
 exports.INITRABBITS = 50;
 exports.INITFOXES = 50;
 

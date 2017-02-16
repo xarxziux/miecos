@@ -25,6 +25,9 @@ function init (width, height) {
 
 function update (...dataArrays) {
     
+    console.log ('dataArrays.length', dataArrays.length);
+    console.log ('dataArrays [0].length', dataArrays [0].length);
+    
     var canvas = document.getElementById ('viewField');
     
     if (!canvas.getContext) {
@@ -34,31 +37,33 @@ function update (...dataArrays) {
         
     }
     
-    const flatArray = utils.flattenArrays (dataArrays);
-    
     const ctx = canvas.getContext('2d');
     const plantField = ctx.createImageData (canvas.width, canvas.height);
+    const newData = utils.flattenArrays (dataArrays [0]);
     
-    flatArray.forEach ((x, i) => {
-        
-        if (x === null) return;
-        
-        plantField.data [i * 4] = x.colour [0];
-        plantField.data [(i * 4) + 1] = x.colour [1];
-        plantField.data [(i * 4) + 2] = x.colour [2];
-        plantField.data [(i * 4) + 3] = x.colour [3];
+    console.log ('plantField.data.length', plantField.data.length);
+    console.log ('newData.length', newData.length);
+    console.log ('dataArrays [0].length', dataArrays [0].length);
+    console.log ('newData', newData);
     
-    });
+    let i = 0;
+    
+    while (i < plantField.data.length) {
+        
+        plantField.data [i] = 127;
+        i = i + 1;
+        
+    }
     
     ctx.putImageData (plantField, 0, 0);
-
+    
 }
 
 
 function logMessage (message) {
     
     const log = document.getElementById ('messages');
-    log.innerHTML = log.innerHTML + '\n' + message;
+    log.innerHTML = log.innerHTML + '<br />' + message;
 
 }
 
@@ -66,7 +71,7 @@ function logMessage (message) {
 function logError (err) {
     
     const log = document.getElementById ('errors');
-    log.innerHTML = log.innerHTML + '\n' + err;
+    log.innerHTML = log.innerHTML + '<br />' + err;
 
 }
 
@@ -95,7 +100,7 @@ exports.MAXPLAYERS = 1000;
 
 // Sets the initial number of the three basic entity types, should be
 // less than or equal to MAXPLAYERS in total
-exports.INITGRASS = 10;
+exports.INITGRASS = 100;
 exports.INITRABBITS = 50;
 exports.INITFOXES = 50;
 
@@ -208,8 +213,15 @@ function createGrass () {
 
 module.exports = {
     
-    createGrass
+    createGrass,
     
+    getInternal: () => ({
+        
+        entity,
+        plant,
+        grass
+        
+    })
 };
 
 
@@ -228,23 +240,54 @@ const indexToRC = utils.getIndexToRowCol.bind (
 
 const plantLayer = Array (config.SCREENWIDTH * config.SCREENHEIGHT)
         .fill (null);
+let updateCount = 0;
 
 function init () {
     
-    initLayer (plantLayer, [{
+    /*initLayer (plantLayer, [{
         
         init: ents.createGrass,
         count: config.INITGRASS
         
-    }]);
+    }]);*/
+    
+    let i = 0;
+    let blade = ents.createGrass();
+    
+    while (i < 5) {
+        
+        plantLayer [i] = blade;
+        i = i + 1;
+        
+    }
+    
+    output.logMessage ('Grass count = ' +
+        
+        plantLayer.reduce (function (a, x) {
+            
+            if (x !== null) return a + 1;
+            return a;
+            
+        }, 0)
+    );
     
     output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
+    
+    console.log (typeof plantLayer [0],
+            plantLayer [1],
+            plantLayer [2],
+            plantLayer [3],
+            plantLayer [4],
+            plantLayer [5]);
+    
+    console.log ('Update Count ', updateCount);
+    updateCount = updateCount + 1;
     output.update (plantLayer);
     
 }
 
 
-function initLayer (layer, entList) {
+/*function initLayer (layer, entList) {
     
     entList.forEach (nextItem => {
         
@@ -261,7 +304,7 @@ function initLayer (layer, entList) {
             
         }
     });
-}
+}*/
 
 
 /* function updatePlantLayer (arr) {
@@ -303,7 +346,7 @@ function initLayer (layer, entList) {
 } */
 
 
-function findEmptyIndex (arr) {
+/*function findEmptyIndex (arr) {
     
     let i = 0;
 
@@ -318,7 +361,7 @@ function findEmptyIndex (arr) {
     
     return null;
     
-}
+}*/
 
 
 /* function findEmptyRC (arr, row, col, range) {
@@ -341,17 +384,19 @@ function findEmptyIndex (arr) {
 } */
 
 
-function getRandomInt(_min, max) {
+/*function getRandomInt(_min, max) {
     
     const min = Math.ceil(_min);
     return Math.floor (Math.random() * (Math.floor(max) - min)) + min;
     
-}
+}*/
 
 
 module.exports = init;
 
 },{"./canvas.js":1,"./config.js":2,"./entities.js":3}],5:[function(require,module,exports){
+// const log = require ('./canvas.js').logMessage;
+
 function getRowColToIndex (maxRow, maxCol, row, col) {
     
     return ((toroidal (col, maxCol) * maxCol) + (toroidal (row, maxRow)));
@@ -383,23 +428,33 @@ function toroidal (_x, _max) {
 
 function flattenArrays (...arrList) {
     
-    return new Uint8ClampedArray (Array (arrList [0].length)
+    console.log ('arrList.length', arrList.length);
+    console.log ('arrList [0].length', arrList [0].length);
+    
+    const mappedArr =  Array (arrList [0].length)
         .fill (void 0)
         .map (function (x, i) {
-            
+        
             let j = 0;
             
             while (j < arrList.length) {
                 
-                if (arrList [j][i] !== null) return arrList [j][i].colours;
+                if (arrList [j][i] !== null)
+                    return arrList [j][i].colour;
+                
                 j = j + 1;
                 
             }
             
             return [0, 0, 0, 0];
             
-        })
-        .reduce ((a, x) => (a.concat (x)), []));
+        });
+    
+    console.log ('mappedArr.length', mappedArr.length);
+    const reducedArr = mappedArr.reduce ((a, x) => (a.concat (x)), []);
+    console.log ('reducedArr.length', reducedArr.length);
+    
+    return new Uint8ClampedArray (reducedArr);
     
 }
 

@@ -7,7 +7,7 @@ set -e
 base_file="./src/0_base/miecos.js"
 bf_file="./src/2_browserified/miecos.by.js"
 out_file="./bin/miecos.js"
-test_file="./src/test/test.js"
+test_file="./src/test/tapetest.js"
 
 # Declare all the modules used
 modules=( \

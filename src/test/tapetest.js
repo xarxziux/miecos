@@ -1,10 +1,13 @@
 const test = require ('tape');
 // const entities = require ('../0_base/entities.js');
 const utils = require ('../0_base/utils.js');
-console.log (JSON.stringify (utils));
+// console.log (JSON.stringify (utils));
 // const utilsInt = utils.getInternal();
 
-test ('Testing toroidal() function', function (t) {
+
+/*
+test.skip ('Testing toroidal() function', function (t) {
+// */ test ('Testing toroidal() function', function (t) {
     
     const toro = utils.getInternal().toroidal;
     
@@ -24,7 +27,9 @@ test ('Testing toroidal() function', function (t) {
     
 });
 
-test ('Testing getRowColToIndex() function', function (t) {
+/*
+test.skip ('Testing getRowColToIndex() function', function (t) {
+// */ test ('Testing getRowColToIndex() function', function (t) {
     
     const rc2I = utils.getRowColToIndex;
     
@@ -44,7 +49,9 @@ test ('Testing getRowColToIndex() function', function (t) {
     
 });
 
-test ('Testing getIndexToRowCol() function', function (t) {
+/*
+test.skip ('Testing getIndexToRowCol() function', function (t) {
+// */ test ('Testing getIndexToRowCol() function', function (t) {
     
     const i2RC = utils.getIndexToRowCol;
     
@@ -64,13 +71,15 @@ test ('Testing getIndexToRowCol() function', function (t) {
     
 });
 
-test ('Test flattenArrays() function', function (t) {
+/*
+test.skip ('Test flattenArrays() function', function (t) {
+// */ test ('Test flattenArrays() function', function (t) {
     
     const fa = utils.flattenArrays;
-    const red = {colours: [254, 1, 2, 253]};
-    const green = {colours: [3, 4, 5, 252]};
-    const blue = {colours: [6, 7, 251, 250]};
-    const grey = {colours: [249, 248, 247, 246]};
+    const red = {colour: [254, 1, 2, 253]};
+    const green = {colour: [3, 4, 5, 252]};
+    const blue = {colour: [6, 7, 251, 250]};
+    const grey = {colour: [249, 248, 247, 246]};
     const blank = [0, 0, 0, 0];
     const arr1 = [ null,  null,  null,  null];
     const arr2 = [ blue,  null,  blue,  null];
@@ -78,27 +87,32 @@ test ('Test flattenArrays() function', function (t) {
     const arr4 = [ null,  grey,  null,  null];
     const arr5 = [green,  null,  null, green];
     
+    console.log ('arr1', arr1, fa (arr1));
+    
     t.plan (10);
     t.equal (typeof fa, 'function',
             'utils.flattenArrays is a function and...');
     t.deepEqual (fa (arr1), new Uint8ClampedArray (
             [].concat (blank, blank, blank, blank)));
     t.deepEqual (fa (arr2),new Uint8ClampedArray (
-            [].concat (blue.colours, blank, blue.colours, blank)));
+            [].concat (blue.colour, blank, blue.colour, blank)));
     t.deepEqual (fa (arr5, arr2), new Uint8ClampedArray (
-            [].concat (green.colours, blank, blue.colours, green.colours)));
+            [].concat (green.colour, blank, blue.colour, green.colour)));
     t.deepEqual (fa (arr4, arr3, arr5), new Uint8ClampedArray (
-            [].concat (green.colours, grey.colours, blank, red.colours)));
+            [].concat (green.colour, grey.colour, blank, red.colour)));
     t.deepEqual (fa (arr4, arr2, arr1, arr3, arr5), new Uint8ClampedArray (
-            [].concat (blue.colours, grey.colours, blue.colours, red.colours)));
+            [].concat (blue.colour, grey.colour, blue.colour, red.colour)));
     t.deepEqual (fa (arr1, arr5, arr3, arr4, arr2), new Uint8ClampedArray (
-            [].concat (green.colours, grey.colours, blue.colours, green.colours)));
+            [].concat (green.colour, grey.colour, blue.colour, green.colour)));
     t.deepEqual (fa (arr3, arr2, arr1, arr5, arr4), new Uint8ClampedArray (
-            [].concat (blue.colours, grey.colours, blue.colours, red.colours)));
+            [].concat (blue.colour, grey.colour, blue.colour, red.colour)));
     t.deepEqual (fa (arr2, arr1, arr5, arr4, arr3), new Uint8ClampedArray (
-            [].concat (blue.colours, grey.colours, blue.colours, green.colours)));
+            [].concat (blue.colour, grey.colour, blue.colour, green.colour)));
     t.deepEqual (fa (arr5, arr3, arr1, arr4, arr2), new Uint8ClampedArray (
-            [].concat (green.colours, grey.colours, blue.colours, green.colours)));
+            [].concat (green.colour, grey.colour, blue.colour, green.colour)));
     t.end();
     
 });
+
+
+

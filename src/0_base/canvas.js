@@ -24,6 +24,16 @@ function init (width, height) {
 
 function update (...dataArrays) {
     
+    logMessage ('dataArrays [0] non-null count = ' +
+        
+        dataArrays [0].reduce (function (a, x) {
+            
+            if (x !== null) return a + 1;
+            return a;
+            
+        }, 0)
+    );
+    
     var canvas = document.getElementById ('viewField');
     
     if (!canvas.getContext) {
@@ -32,32 +42,33 @@ function update (...dataArrays) {
         return;
         
     }
-    
-    const flatArray = utils.flattenArrays (dataArrays);
-    
+
     const ctx = canvas.getContext('2d');
     const plantField = ctx.createImageData (canvas.width, canvas.height);
+    const newData = utils.flattenArrays (dataArrays);
     
-    flatArray.forEach ((x, i) => {
-        
-        if (x === null) return;
-        
-        plantField.data [i * 4] = x.colour [0];
-        plantField.data [(i * 4) + 1] = x.colour [1];
-        plantField.data [(i * 4) + 2] = x.colour [2];
-        plantField.data [(i * 4) + 3] = x.colour [3];
+    console.log ('plantField.data.length', plantField.data.length);
+    console.log ('newData.length', newData.length);
+    console.log ('dataArrays [0].length', dataArrays [0].length);
     
-    });
+    let i = 0;
+    
+    while (i < plantField.data.length) {
+        
+        plantField.data [i] = 127;
+        i = i + 1;
+        
+    }
     
     ctx.putImageData (plantField, 0, 0);
-
+    
 }
 
 
 function logMessage (message) {
     
     const log = document.getElementById ('messages');
-    log.innerHTML = log.innerHTML + '\n' + message;
+    log.innerHTML = log.innerHTML + '<br />' + message;
 
 }
 
@@ -65,7 +76,7 @@ function logMessage (message) {
 function logError (err) {
     
     const log = document.getElementById ('errors');
-    log.innerHTML = log.innerHTML + '\n' + err;
+    log.innerHTML = log.innerHTML + '<br />' + err;
 
 }
 

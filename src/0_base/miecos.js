@@ -12,23 +12,54 @@ const indexToRC = utils.getIndexToRowCol.bind (
 
 const plantLayer = Array (config.SCREENWIDTH * config.SCREENHEIGHT)
         .fill (null);
+let updateCount = 0;
 
 function init () {
     
-    initLayer (plantLayer, [{
+    /*initLayer (plantLayer, [{
         
         init: ents.createGrass,
         count: config.INITGRASS
         
-    }]);
+    }]);*/
+    
+    let i = 0;
+    let blade = ents.createGrass();
+    
+    while (i < 5) {
+        
+        plantLayer [i] = blade;
+        i = i + 1;
+        
+    }
+    
+    output.logMessage ('Grass count = ' +
+        
+        plantLayer.reduce (function (a, x) {
+            
+            if (x !== null) return a + 1;
+            return a;
+            
+        }, 0)
+    );
     
     output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
+    
+    console.log (typeof plantLayer [0],
+            plantLayer [1],
+            plantLayer [2],
+            plantLayer [3],
+            plantLayer [4],
+            plantLayer [5]);
+    
+    console.log ('Update Count ', updateCount);
+    updateCount = updateCount + 1;
     output.update (plantLayer);
     
 }
 
 
-function initLayer (layer, entList) {
+/*function initLayer (layer, entList) {
     
     entList.forEach (nextItem => {
         
@@ -45,7 +76,7 @@ function initLayer (layer, entList) {
             
         }
     });
-}
+}*/
 
 
 /* function updatePlantLayer (arr) {
@@ -87,7 +118,7 @@ function initLayer (layer, entList) {
 } */
 
 
-function findEmptyIndex (arr) {
+/*function findEmptyIndex (arr) {
     
     let i = 0;
 
@@ -102,7 +133,7 @@ function findEmptyIndex (arr) {
     
     return null;
     
-}
+}*/
 
 
 /* function findEmptyRC (arr, row, col, range) {
@@ -125,12 +156,12 @@ function findEmptyIndex (arr) {
 } */
 
 
-function getRandomInt(_min, max) {
+/*function getRandomInt(_min, max) {
     
     const min = Math.ceil(_min);
     return Math.floor (Math.random() * (Math.floor(max) - min)) + min;
     
-}
+}*/
 
 
 module.exports = init;
