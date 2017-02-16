@@ -1,10 +1,13 @@
 // Defines the width of the field, should be less than the width of the
 // screen.
-exports.SCREENWIDTH = 640;
+exports.SCREENWIDTH = 50;
 
 // Defines the height of the field, should be less than the height of
 // the screen.
-exports.SCREENHEIGHT = 480;
+exports.SCREENHEIGHT = 30;
+
+// Set how big the canvas should be compared to the underlying data array.
+exports.SCREENSCALE = 10;
 
 // Defines the maximum number of entities allowed, should be less or
 // equal to than (SCREENWIDTH * SCREENHEIGHT)

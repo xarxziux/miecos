@@ -2,6 +2,9 @@
 const ents = require ('./entities.js');
 const config = require ('./config.js');
 const output = require ('./canvas.js');
+const update = output.update.bind (
+        null, config.SCREENWIDTH, config.SCREENHEIGHT);
+
 // const utils = require ('./utils.js');
 /*
 const rcToIndex = utils.getRowColToIndex.bind (
@@ -12,49 +15,24 @@ const indexToRC = utils.getIndexToRowCol.bind (
 
 const plantLayer = Array (config.SCREENWIDTH * config.SCREENHEIGHT)
         .fill (null);
-let updateCount = 0;
 
 function init () {
     
-    /*initLayer (plantLayer, [{
-        
-        init: ents.createGrass,
-        count: config.INITGRASS
-        
-    }]);*/
+    if (!output.init (config.SCREENWIDTH * 10, config.SCREENHEIGHT * 10))
+        return;
     
     let i = 0;
     let blade = ents.createGrass();
     
-    while (i < 5) {
+    while (i < 50) {
         
         plantLayer [i] = blade;
         i = i + 1;
         
     }
-    
-    output.logMessage ('Grass count = ' +
-        
-        plantLayer.reduce (function (a, x) {
-            
-            if (x !== null) return a + 1;
-            return a;
-            
-        }, 0)
-    );
-    
-    output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
-    
-    console.log (typeof plantLayer [0],
-            plantLayer [1],
-            plantLayer [2],
-            plantLayer [3],
-            plantLayer [4],
-            plantLayer [5]);
-    
-    console.log ('Update Count ', updateCount);
-    updateCount = updateCount + 1;
-    output.update (plantLayer);
+
+    update (plantLayer);
+    return;
     
 }
 

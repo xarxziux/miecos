@@ -29,27 +29,28 @@ function toroidal (_x, _max) {
 }
 
 
-function flattenArrays (...arrList) {
+function flattenArrays (...dataArrays) {
     
-    return new Uint8ClampedArray (Array (arrList [0].length)
-        .fill (void 0)
-        .map (function (x, i) {
-        
-            let j = 0;
+    const flatArr = Array (dataArrays [0].length)
+        .fill (0)
+        .map ((x, j) => {
             
-            while (j < arrList.length) {
+            let i = 0;
+            
+            while (i < dataArrays.length) {
                 
-                if (arrList [j][i] !== null)
-                    return arrList [j][i].colour;
+                if (dataArrays [i][j] !== null)
+                    return dataArrays [i][j].colour;
                 
-                j = j + 1;
+                i = i + 1;
                 
             }
             
-            return [0, 0, 0, 0];
+            return x;
             
-        })
-        .reduce ((a, x) => (a.concat (x)), []));
+        });
+    
+    return flatArr;
     
 }
 

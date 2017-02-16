@@ -52,7 +52,7 @@ grass.spawnHealth = config.GRASSSPAWNHEALTH;
 grass.maxHealth = config.MAXGRASSHEALTH;
 grass.maturityLevel = config.GRASSMATURITYLEVEL;
 grass.name = 'grass';
-grass.colour = config.GRASSCOLOUR;
+grass.colour = 'green';
 
 
 function createGrass () {

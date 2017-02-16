@@ -76,11 +76,10 @@ test.skip ('Test flattenArrays() function', function (t) {
 // */ test ('Test flattenArrays() function', function (t) {
     
     const fa = utils.flattenArrays;
-    const red = {colour: [254, 1, 2, 253]};
-    const green = {colour: [3, 4, 5, 252]};
-    const blue = {colour: [6, 7, 251, 250]};
-    const grey = {colour: [249, 248, 247, 246]};
-    const blank = [0, 0, 0, 0];
+    const red = {colour: 1};
+    const green = {colour: 2};
+    const blue = {colour: 3};
+    const grey = {colour: 4};
     const arr1 = [ null,  null,  null,  null];
     const arr2 = [ blue,  null,  blue,  null];
     const arr3 = [ null,  null,  null,   red];
@@ -93,23 +92,23 @@ test.skip ('Test flattenArrays() function', function (t) {
     t.equal (typeof fa, 'function',
             'utils.flattenArrays is a function and...');
     t.deepEqual (fa (arr1), new Uint8ClampedArray (
-            [].concat (blank, blank, blank, blank)));
+            [0, 0, 0, 0]));
     t.deepEqual (fa (arr2),new Uint8ClampedArray (
-            [].concat (blue.colour, blank, blue.colour, blank)));
+            [3, 0, 3, 0]));
     t.deepEqual (fa (arr5, arr2), new Uint8ClampedArray (
-            [].concat (green.colour, blank, blue.colour, green.colour)));
+            [2, 0, 3, 2]));
     t.deepEqual (fa (arr4, arr3, arr5), new Uint8ClampedArray (
-            [].concat (green.colour, grey.colour, blank, red.colour)));
+            [2, 4, 0, 1]));
     t.deepEqual (fa (arr4, arr2, arr1, arr3, arr5), new Uint8ClampedArray (
-            [].concat (blue.colour, grey.colour, blue.colour, red.colour)));
+            [3, 4, 3, 1]));
     t.deepEqual (fa (arr1, arr5, arr3, arr4, arr2), new Uint8ClampedArray (
-            [].concat (green.colour, grey.colour, blue.colour, green.colour)));
+            [2, 4, 3, 2]));
     t.deepEqual (fa (arr3, arr2, arr1, arr5, arr4), new Uint8ClampedArray (
-            [].concat (blue.colour, grey.colour, blue.colour, red.colour)));
+            [3, 4, 3, 1]));
     t.deepEqual (fa (arr2, arr1, arr5, arr4, arr3), new Uint8ClampedArray (
-            [].concat (blue.colour, grey.colour, blue.colour, green.colour)));
+            [3, 4, 3, 2]));
     t.deepEqual (fa (arr5, arr3, arr1, arr4, arr2), new Uint8ClampedArray (
-            [].concat (green.colour, grey.colour, blue.colour, green.colour)));
+            [2, 4, 3, 2]));
     t.end();
     
 });

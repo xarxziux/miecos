@@ -1,67 +1,49 @@
 /* globals document: false */
 
 const utils = require ('./utils.js');
+const shapeSize = require ('./utils.js').SCREENSCALE - 1;
+const colourList = {
+    
+    red: [0, 255, 0, 255],
+    green: [0, 255, 0, 255],
+    blue: [0, 255, 0, 255],
+    white: [0, 255, 0, 255]
+    
+};
+
 
 function init (width, height) {
-    
-    logMessage ('initCanvas() called');
     
     var canvas = document.getElementById ('viewField');
     
     if (!canvas.getContext) {
         
         canvas.innerHTML = 'Unsupported browser';
-        return;
+        return false;
         
     }
     
-    logMessage ('Setting canvas size');
     canvas.width = width;
     canvas.height = height;
+    return true;
     
 }
 
 
-function update (...dataArrays) {
+function update (arrWidth, arrHeight, ...dataArrays) {
     
-    logMessage ('dataArrays [0] non-null count = ' +
+    const canvas = document.getElementById ('viewField');
+    var ctx = canvas.getContext('2d');
+    const flatArr = utils.flattArrays (dataArrays);
+    flatArr.forEach ((x, i) => {
         
-        dataArrays [0].reduce (function (a, x) {
-            
-            if (x !== null) return a + 1;
-            return a;
-            
-        }, 0)
-    );
-    
-    var canvas = document.getElementById ('viewField');
-    
-    if (!canvas.getContext) {
+        if (x === 0) return;
         
-        canvas.innerHTML = 'Unsupported browser';
-        return;
+        ctx.fillStyle = colourList [x.colour];
+        ctx.fillRect (shapeSize, shapeSize, i % arrWidth,
+                Math.floor (i / arrHeight));
         
-    }
-
-    const ctx = canvas.getContext('2d');
-    const plantField = ctx.createImageData (canvas.width, canvas.height);
-    const newData = utils.flattenArrays (dataArrays);
-    
-    console.log ('plantField.data.length', plantField.data.length);
-    console.log ('newData.length', newData.length);
-    console.log ('dataArrays [0].length', dataArrays [0].length);
-    
-    let i = 0;
-    
-    while (i < plantField.data.length) {
-        
-        plantField.data [i] = 127;
-        i = i + 1;
-        
-    }
-    
-    ctx.putImageData (plantField, 0, 0);
-    
+    });
 }
 
 

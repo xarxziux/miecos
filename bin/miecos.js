@@ -2,61 +2,49 @@
 /* globals document: false */
 
 const utils = require ('./utils.js');
+const shapeSize = require ('./utils.js').SCREENSCALE - 1;
+const colourList = {
+    
+    red: [0, 255, 0, 255],
+    green: [0, 255, 0, 255],
+    blue: [0, 255, 0, 255],
+    white: [0, 255, 0, 255]
+    
+};
+
 
 function init (width, height) {
-    
-    logMessage ('initCanvas() called');
     
     var canvas = document.getElementById ('viewField');
     
     if (!canvas.getContext) {
         
         canvas.innerHTML = 'Unsupported browser';
-        return;
+        return false;
         
     }
     
-    logMessage ('Setting canvas size');
     canvas.width = width;
     canvas.height = height;
+    return true;
     
 }
 
 
-function update (...dataArrays) {
+function update (arrWidth, arrHeight, ...dataArrays) {
     
-    console.log ('dataArrays.length', dataArrays.length);
-    console.log ('dataArrays [0].length', dataArrays [0].length);
-    
-    var canvas = document.getElementById ('viewField');
-    
-    if (!canvas.getContext) {
+    const canvas = document.getElementById ('viewField');
+    var ctx = canvas.getContext('2d');
+    const flatArr = utils.flattArrays (dataArrays);
+    flatArr.forEach ((x, i) => {
         
-        canvas.innerHTML = 'Unsupported browser';
-        return;
+        if (x === 0) return;
         
-    }
-    
-    const ctx = canvas.getContext('2d');
-    const plantField = ctx.createImageData (canvas.width, canvas.height);
-    const newData = utils.flattenArrays (dataArrays [0]);
-    
-    console.log ('plantField.data.length', plantField.data.length);
-    console.log ('newData.length', newData.length);
-    console.log ('dataArrays [0].length', dataArrays [0].length);
-    console.log ('newData', newData);
-    
-    let i = 0;
-    
-    while (i < plantField.data.length) {
+        ctx.fillStyle = colourList [x.colour];
+        ctx.fillRect (shapeSize, shapeSize, i % arrWidth,
+                Math.floor (i / arrHeight));
         
-        plantField.data [i] = 127;
-        i = i + 1;
-        
-    }
-    
-    ctx.putImageData (plantField, 0, 0);
-    
+    });
 }
 
 
@@ -88,11 +76,14 @@ module.exports = {
 },{"./utils.js":5}],2:[function(require,module,exports){
 // Defines the width of the field, should be less than the width of the
 // screen.
-exports.SCREENWIDTH = 640;
+exports.SCREENWIDTH = 50;
 
 // Defines the height of the field, should be less than the height of
 // the screen.
-exports.SCREENHEIGHT = 480;
+exports.SCREENHEIGHT = 30;
+
+// Set how big the canvas should be compared to the underlying data array.
+exports.SCREENSCALE = 10;
 
 // Defines the maximum number of entities allowed, should be less or
 // equal to than (SCREENWIDTH * SCREENHEIGHT)
@@ -200,7 +191,7 @@ grass.spawnHealth = config.GRASSSPAWNHEALTH;
 grass.maxHealth = config.MAXGRASSHEALTH;
 grass.maturityLevel = config.GRASSMATURITYLEVEL;
 grass.name = 'grass';
-grass.colour = config.GRASSCOLOUR;
+grass.colour = 'green';
 
 
 function createGrass () {
@@ -230,6 +221,9 @@ module.exports = {
 const ents = require ('./entities.js');
 const config = require ('./config.js');
 const output = require ('./canvas.js');
+const update = output.update.bind (
+        null, config.SCREENWIDTH, config.SCREENHEIGHT);
+
 // const utils = require ('./utils.js');
 /*
 const rcToIndex = utils.getRowColToIndex.bind (
@@ -240,49 +234,24 @@ const indexToRC = utils.getIndexToRowCol.bind (
 
 const plantLayer = Array (config.SCREENWIDTH * config.SCREENHEIGHT)
         .fill (null);
-let updateCount = 0;
 
 function init () {
     
-    /*initLayer (plantLayer, [{
-        
-        init: ents.createGrass,
-        count: config.INITGRASS
-        
-    }]);*/
+    if (!output.init (config.SCREENWIDTH * 10, config.SCREENHEIGHT * 10))
+        return;
     
     let i = 0;
     let blade = ents.createGrass();
     
-    while (i < 5) {
+    while (i < 50) {
         
         plantLayer [i] = blade;
         i = i + 1;
         
     }
-    
-    output.logMessage ('Grass count = ' +
-        
-        plantLayer.reduce (function (a, x) {
-            
-            if (x !== null) return a + 1;
-            return a;
-            
-        }, 0)
-    );
-    
-    output.init (config.SCREENWIDTH, config.SCREENHEIGHT);
-    
-    console.log (typeof plantLayer [0],
-            plantLayer [1],
-            plantLayer [2],
-            plantLayer [3],
-            plantLayer [4],
-            plantLayer [5]);
-    
-    console.log ('Update Count ', updateCount);
-    updateCount = updateCount + 1;
-    output.update (plantLayer);
+
+    update (plantLayer);
+    return;
     
 }
 
@@ -426,35 +395,28 @@ function toroidal (_x, _max) {
 }
 
 
-function flattenArrays (...arrList) {
+function flattenArrays (...dataArrays) {
     
-    console.log ('arrList.length', arrList.length);
-    console.log ('arrList [0].length', arrList [0].length);
-    
-    const mappedArr =  Array (arrList [0].length)
-        .fill (void 0)
-        .map (function (x, i) {
-        
-            let j = 0;
+    const flatArr = Array (dataArrays [0].length)
+        .fill (0)
+        .map ((x, j) => {
             
-            while (j < arrList.length) {
+            let i = 0;
+            
+            while (i < dataArrays.length) {
                 
-                if (arrList [j][i] !== null)
-                    return arrList [j][i].colour;
+                if (dataArrays [i][j] !== null)
+                    return dataArrays [i][j].colour;
                 
-                j = j + 1;
+                i = i + 1;
                 
             }
             
-            return [0, 0, 0, 0];
+            return x;
             
         });
     
-    console.log ('mappedArr.length', mappedArr.length);
-    const reducedArr = mappedArr.reduce ((a, x) => (a.concat (x)), []);
-    console.log ('reducedArr.length', reducedArr.length);
-    
-    return new Uint8ClampedArray (reducedArr);
+    return flatArr;
     
 }
 
