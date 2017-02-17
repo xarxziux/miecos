@@ -1,15 +1,17 @@
 /* globals document: false */
 
 const utils = require ('./utils.js');
-const shapeSize = require ('./utils.js').SCREENSCALE - 1;
-const colourList = {
+const shapeSize = require ('./config.js').BLOCKSIZE;
+const shapePadding = require ('./config.js').BLOCKPADDING;
+const colourList = [
     
-    red: [0, 255, 0, 255],
-    green: [0, 255, 0, 255],
-    blue: [0, 255, 0, 255],
-    white: [0, 255, 0, 255]
+    'black',
+    'red',
+    'green',
+    'blue',
+    'white'
     
-};
+];
 
 
 function init (width, height) {
@@ -33,15 +35,18 @@ function init (width, height) {
 function update (arrWidth, arrHeight, ...dataArrays) {
     
     const canvas = document.getElementById ('viewField');
-    var ctx = canvas.getContext('2d');
-    const flatArr = utils.flattArrays (dataArrays);
+    const ctx = canvas.getContext('2d');
+    const flatArr = utils.flattenArrays (dataArrays);
+    
     flatArr.forEach ((x, i) => {
         
         if (x === 0) return;
         
-        ctx.fillStyle = colourList [x.colour];
-        ctx.fillRect (shapeSize, shapeSize, i % arrWidth,
-                Math.floor (i / arrHeight));
+        ctx.fillStyle = colourList [x];
+        ctx.fillRect (((i % arrWidth) * shapeSize) + shapePadding,
+                ((Math.floor (i / arrWidth)) * shapeSize) + shapePadding,
+                shapeSize - (shapePadding * 2),
+                shapeSize - (shapePadding * 2));
         
     });
 }

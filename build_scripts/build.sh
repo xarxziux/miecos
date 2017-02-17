@@ -58,7 +58,7 @@ done
 # Then run the main build process
 jshint "${base_file}"
 jshint "${test_file}"
-node "${test_file}" | tap-dot
+node "${test_file}"
 browserify "${base_file}" --standalone miecos -o "${bf_file}"
 cp -v "${bf_file}" "${out_file}"
 

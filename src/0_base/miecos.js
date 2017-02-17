@@ -30,7 +30,7 @@ function init () {
         i = i + 1;
         
     }
-
+    
     update (plantLayer);
     return;
     

@@ -7,7 +7,8 @@ exports.SCREENWIDTH = 50;
 exports.SCREENHEIGHT = 30;
 
 // Set how big the canvas should be compared to the underlying data array.
-exports.SCREENSCALE = 10;
+exports.BLOCKSIZE = 10;
+exports.BLOCKPADDING = 2;
 
 // Defines the maximum number of entities allowed, should be less or
 // equal to than (SCREENWIDTH * SCREENHEIGHT)
@@ -28,7 +29,7 @@ exports.MAXGRASSHEALTH = 300;
 // exports.MAXRABBITHEALTH = 400;
 exports.INITGRASSHEALTH = 150;
 // exports.INITRABBITHEALTH = 300;
-exports.GRASSMATURITYLEVEL = 100;
+exports.GRASSMATURITYLEVEL = 130;
 // MAXFOXHEALTH = 400;
 exports.GRASSSPAWNHEALTH = 100;
 
@@ -49,7 +50,7 @@ exports.TOTALRUNS = 1000;
 // exports.GRASSCHAR = [false, true, false, false, true, false, false, true, false];
 // exports.RABBITCHAR = 'r';
 // exports.FOXCHAR = 'F';
-exports.GRASSCOLOUR = [0, 255, 0, 255];
+exports.GRASSCOLOUR = 2;
 // exports.RABBITCOLOUR = [255, 0, 0, 255];
 
 

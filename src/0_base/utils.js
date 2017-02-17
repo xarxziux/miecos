@@ -29,7 +29,7 @@ function toroidal (_x, _max) {
 }
 
 
-function flattenArrays (...dataArrays) {
+function flattenArrays (dataArrays) {
     
     const flatArr = Array (dataArrays [0].length)
         .fill (0)
@@ -39,7 +39,8 @@ function flattenArrays (...dataArrays) {
             
             while (i < dataArrays.length) {
                 
-                if (dataArrays [i][j] !== null)
+                if ((dataArrays [i][j] !== null) &&
+                        (dataArrays [i][j].isVisible()))
                     return dataArrays [i][j].colour;
                 
                 i = i + 1;

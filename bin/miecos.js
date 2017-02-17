@@ -2,15 +2,17 @@
 /* globals document: false */
 
 const utils = require ('./utils.js');
-const shapeSize = require ('./utils.js').SCREENSCALE - 1;
-const colourList = {
+const shapeSize = require ('./config.js').BLOCKSIZE;
+const shapePadding = require ('./config.js').BLOCKPADDING;
+const colourList = [
     
-    red: [0, 255, 0, 255],
-    green: [0, 255, 0, 255],
-    blue: [0, 255, 0, 255],
-    white: [0, 255, 0, 255]
+    'black',
+    'red',
+    'green',
+    'blue',
+    'white'
     
-};
+];
 
 
 function init (width, height) {
@@ -34,15 +36,18 @@ function init (width, height) {
 function update (arrWidth, arrHeight, ...dataArrays) {
     
     const canvas = document.getElementById ('viewField');
-    var ctx = canvas.getContext('2d');
-    const flatArr = utils.flattArrays (dataArrays);
+    const ctx = canvas.getContext('2d');
+    const flatArr = utils.flattenArrays (dataArrays);
+    
     flatArr.forEach ((x, i) => {
         
         if (x === 0) return;
         
-        ctx.fillStyle = colourList [x.colour];
-        ctx.fillRect (shapeSize, shapeSize, i % arrWidth,
-                Math.floor (i / arrHeight));
+        ctx.fillStyle = colourList [x];
+        ctx.fillRect (((i % arrWidth) * shapeSize) + shapePadding,
+                ((Math.floor (i / arrWidth)) * shapeSize) + shapePadding,
+                shapeSize - (shapePadding * 2),
+                shapeSize - (shapePadding * 2));
         
     });
 }
@@ -73,7 +78,7 @@ module.exports = {
     
 };
 
-},{"./utils.js":5}],2:[function(require,module,exports){
+},{"./config.js":2,"./utils.js":5}],2:[function(require,module,exports){
 // Defines the width of the field, should be less than the width of the
 // screen.
 exports.SCREENWIDTH = 50;
@@ -83,7 +88,8 @@ exports.SCREENWIDTH = 50;
 exports.SCREENHEIGHT = 30;
 
 // Set how big the canvas should be compared to the underlying data array.
-exports.SCREENSCALE = 10;
+exports.BLOCKSIZE = 10;
+exports.BLOCKPADDING = 2;
 
 // Defines the maximum number of entities allowed, should be less or
 // equal to than (SCREENWIDTH * SCREENHEIGHT)
@@ -104,7 +110,7 @@ exports.MAXGRASSHEALTH = 300;
 // exports.MAXRABBITHEALTH = 400;
 exports.INITGRASSHEALTH = 150;
 // exports.INITRABBITHEALTH = 300;
-exports.GRASSMATURITYLEVEL = 100;
+exports.GRASSMATURITYLEVEL = 130;
 // MAXFOXHEALTH = 400;
 exports.GRASSSPAWNHEALTH = 100;
 
@@ -125,7 +131,7 @@ exports.TOTALRUNS = 1000;
 // exports.GRASSCHAR = [false, true, false, false, true, false, false, true, false];
 // exports.RABBITCHAR = 'r';
 // exports.FOXCHAR = 'F';
-exports.GRASSCOLOUR = [0, 255, 0, 255];
+exports.GRASSCOLOUR = 2;
 // exports.RABBITCOLOUR = [255, 0, 0, 255];
 
 
@@ -173,14 +179,14 @@ plant.isVisible = function() {
 plant.spawn = function () {
     
     const newPlant = Object.create (Object.getPrototypeOf (this));
-    this.health = this.spawnHealth;
+    newPlant.health = this.spawnHealth;
     return newPlant;
     
 };
 plant.init = function () {
     
     const newPlant = Object.create (Object.getPrototypeOf (this));
-    this.health = this.initHealth;
+    newPlant.health = this.initHealth;
     return newPlant;
     
 };
@@ -191,7 +197,7 @@ grass.spawnHealth = config.GRASSSPAWNHEALTH;
 grass.maxHealth = config.MAXGRASSHEALTH;
 grass.maturityLevel = config.GRASSMATURITYLEVEL;
 grass.name = 'grass';
-grass.colour = 'green';
+grass.colour = 2;
 
 
 function createGrass () {
@@ -249,7 +255,7 @@ function init () {
         i = i + 1;
         
     }
-
+    
     update (plantLayer);
     return;
     
@@ -395,7 +401,7 @@ function toroidal (_x, _max) {
 }
 
 
-function flattenArrays (...dataArrays) {
+function flattenArrays (dataArrays) {
     
     const flatArr = Array (dataArrays [0].length)
         .fill (0)
@@ -405,7 +411,8 @@ function flattenArrays (...dataArrays) {
             
             while (i < dataArrays.length) {
                 
-                if (dataArrays [i][j] !== null)
+                if ((dataArrays [i][j] !== null) &&
+                        (dataArrays [i][j].isVisible()))
                     return dataArrays [i][j].colour;
                 
                 i = i + 1;

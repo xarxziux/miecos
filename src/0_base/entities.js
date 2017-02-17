@@ -34,14 +34,14 @@ plant.isVisible = function() {
 plant.spawn = function () {
     
     const newPlant = Object.create (Object.getPrototypeOf (this));
-    this.health = this.spawnHealth;
+    newPlant.health = this.spawnHealth;
     return newPlant;
     
 };
 plant.init = function () {
     
     const newPlant = Object.create (Object.getPrototypeOf (this));
-    this.health = this.initHealth;
+    newPlant.health = this.initHealth;
     return newPlant;
     
 };
@@ -52,7 +52,7 @@ grass.spawnHealth = config.GRASSSPAWNHEALTH;
 grass.maxHealth = config.MAXGRASSHEALTH;
 grass.maturityLevel = config.GRASSMATURITYLEVEL;
 grass.name = 'grass';
-grass.colour = 'green';
+grass.colour = 2;
 
 
 function createGrass () {
