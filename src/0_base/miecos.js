@@ -2,6 +2,7 @@
 const ents = require ('./entities.js');
 const config = require ('./config.js');
 const output = require ('./canvas.js');
+const imp = require ('./impure.js');
 const update = output.update.bind (
         null, config.SCREENWIDTH, config.SCREENHEIGHT);
 
@@ -21,40 +22,17 @@ function init () {
     if (!output.init (config.SCREENWIDTH * 10, config.SCREENHEIGHT * 10))
         return;
     
-    let i = 0;
-    let blade = ents.createGrass();
-    
-    while (i < 50) {
+    imp.initLayer (plantLayer, {
         
-        plantLayer [i] = blade;
-        i = i + 1;
+        count: 30,
+        init: ents.createGrass
         
-    }
+    });
     
     update (plantLayer);
     return;
     
 }
-
-
-/*function initLayer (layer, entList) {
-    
-    entList.forEach (nextItem => {
-        
-        let i = 0;
-        
-        while (i < nextItem.count) {
-            
-            const nextGuess = findEmptyIndex (layer);
-            
-            if (nextGuess !== null)
-                layer [nextGuess] = nextItem.init();
-            
-            i = i + 1;
-            
-        }
-    });
-}*/
 
 
 /* function updatePlantLayer (arr) {
@@ -96,24 +74,6 @@ function init () {
 } */
 
 
-/*function findEmptyIndex (arr) {
-    
-    let i = 0;
-
-    while (i < config.MAXTRIES) {
-        
-        const guess = getRandomInt (0, arr.length);
-        if (arr [guess] === null) return guess;
-        
-        i = i + 1;
-        
-    }
-    
-    return null;
-    
-}*/
-
-
 /* function findEmptyRC (arr, row, col, range) {
     
     let i = 0;
@@ -132,14 +92,6 @@ function init () {
     return null;
     
 } */
-
-
-/*function getRandomInt(_min, max) {
-    
-    const min = Math.ceil(_min);
-    return Math.floor (Math.random() * (Math.floor(max) - min)) + min;
-    
-}*/
 
 
 module.exports = init;

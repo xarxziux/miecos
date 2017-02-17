@@ -1,9 +1,11 @@
 const test = require ('tape');
 const entities = require ('../0_base/entities.js');
 const utils = require ('../0_base/utils.js');
+const impure = require ('../0_base/impure.js');
 // const config = require ('../0_base/config.js');
+
 // console.log (JSON.stringify (utils));
-// const utilsInt = utils.getInternal();
+
 
 
 /*
@@ -158,6 +160,77 @@ test.skip ('Test createGrass() function', function (t) {
             blade3.isVisible() === false &&
             blade4.isVisible() === false, true,
             'Newly spawned and eaten blades are not visible');
+    t.end();
+    
+});
+
+
+/*
+test.skip ('Test getRandomInt() function', function (t) {
+// */ test ('Test getRandomInt() function', function (t) {
+    
+    const rand = impure.getInternal().getRandomInt;
+    const r1 = rand (3, 20);
+    const r2 = rand (13, 14);
+    const r3 = rand (-13, 250);
+    const r4 = rand (-451, -34);
+    const r5 = rand (4574, 4886);
+    const r6 = rand (-2346, 4457);
+    const r7 = rand (67, 69);
+    const r8 = rand (-10000, -9997);
+    
+    t.plan (10);
+    t.equal (typeof rand, 'function',
+            'getRandomInt() is a function and...');
+    t.equal (Number.isInteger (r1) &&
+            Number.isInteger (r2) &&
+            Number.isInteger (r3) &&
+            Number.isInteger (r4) &&
+            Number.isInteger (r5) &&
+            Number.isInteger (r6) &&
+            Number.isInteger (r7) &&
+            Number.isInteger (r8), true,
+            'That function returns an integer and...');
+    t.equal (r1 > 2 && r1 < 20, true);
+    t.equal (r2, 13);
+    t.equal (r3 > -12 && r3 < 250, true);
+    t.equal (r4 > -452 && r4 < -34, true);
+    t.equal (r5 > 4573 && r5 < 4886, true);
+    t.equal (r6 > -2347 && r6 < 4457, true);
+    t.equal (r7 > 66 && r7 < 69, true);
+    t.equal (r8 > -10001 && r8 < -9997, true);
+    t.end();
+    
+});
+
+
+/*
+test.skip ('Test findEmptyIndex() function', function (t) {
+// */ test ('Test findEmptyIndex() function', function (t) {
+    
+    const find = impure.getInternal().findEmptyIndex;
+    const nullArr = [null, null, null, null, null];
+    const nonNullArr = [0, 0, 0, 0, 0];
+    const mixedArr = [0, null, null, null, null, null, null, 0, 0, 0];
+    const x1 = find (1, nullArr);
+    const x2 = find (100, nonNullArr);
+    const x3 = find (100, mixedArr);
+    
+    t.plan (5);
+    t.equal (typeof find, 'function',
+            'findEmptyIndex is a function and...');
+    t.equal (Number.isInteger (x1), true,
+            'That function will always return a integer on an array' +
+            ' of nulls and...');
+    t.equal (x1 > -1 && x1 < nullArr.length, true,
+            'That number will be an index of that array and...');
+    t.equal (x2, null,
+            'The function will always return null on an array with no' +
+            ' nulls and...');
+    t.equal (x3 === null || (Number.isInteger (x3) && x3 > -1 && x3 <
+            mixedArr.length && mixedArr [x3] === null), true,
+            'The function will return null or an index to a null value on a' +
+            ' mixed array.');
     t.end();
     
 });

@@ -78,7 +78,7 @@ module.exports = {
     
 };
 
-},{"./config.js":2,"./utils.js":5}],2:[function(require,module,exports){
+},{"./config.js":2,"./utils.js":6}],2:[function(require,module,exports){
 // Defines the width of the field, should be less than the width of the
 // screen.
 exports.SCREENWIDTH = 50;
@@ -223,10 +223,73 @@ module.exports = {
 
 
 },{"./config.js":2}],4:[function(require,module,exports){
+const config = require ('./config.js');
+
+function initLayer (layer, ...entList) {
+    
+    entList.forEach (nextItem => {
+        
+        let i = 0;
+        
+        while (i < nextItem.count) {
+            
+            const nextGuess = findEmptyIndex (config.MAXTRIES, layer);
+            
+            if (nextGuess !== null)
+                layer [nextGuess] = nextItem.init();
+            
+            i = i + 1;
+            
+        }
+    });
+}
+
+
+function findEmptyIndex (tries, arr) {
+    
+    let i = 0;
+
+    while (i < tries) {
+        
+        const guess = getRandomInt (0, arr.length);
+        if (arr [guess] === null) return guess;
+        
+        i = i + 1;
+        
+    }
+    
+    return null;
+    
+}
+
+
+function getRandomInt(_min, max) {
+    
+    const min = Math.ceil(_min);
+    return Math.floor (Math.random() * (Math.floor(max) - min)) + min;
+    
+}
+
+
+module.exports = {
+    
+    initLayer,
+    
+    getInternal: () => ({
+        
+        findEmptyIndex,
+        getRandomInt
+        
+    })
+};
+
+
+},{"./config.js":2}],5:[function(require,module,exports){
 'use strict';
 const ents = require ('./entities.js');
 const config = require ('./config.js');
 const output = require ('./canvas.js');
+const imp = require ('./impure.js');
 const update = output.update.bind (
         null, config.SCREENWIDTH, config.SCREENHEIGHT);
 
@@ -246,40 +309,17 @@ function init () {
     if (!output.init (config.SCREENWIDTH * 10, config.SCREENHEIGHT * 10))
         return;
     
-    let i = 0;
-    let blade = ents.createGrass();
-    
-    while (i < 50) {
+    imp.initLayer (plantLayer, {
         
-        plantLayer [i] = blade;
-        i = i + 1;
+        count: 30,
+        init: ents.createGrass
         
-    }
+    });
     
     update (plantLayer);
     return;
     
 }
-
-
-/*function initLayer (layer, entList) {
-    
-    entList.forEach (nextItem => {
-        
-        let i = 0;
-        
-        while (i < nextItem.count) {
-            
-            const nextGuess = findEmptyIndex (layer);
-            
-            if (nextGuess !== null)
-                layer [nextGuess] = nextItem.init();
-            
-            i = i + 1;
-            
-        }
-    });
-}*/
 
 
 /* function updatePlantLayer (arr) {
@@ -321,24 +361,6 @@ function init () {
 } */
 
 
-/*function findEmptyIndex (arr) {
-    
-    let i = 0;
-
-    while (i < config.MAXTRIES) {
-        
-        const guess = getRandomInt (0, arr.length);
-        if (arr [guess] === null) return guess;
-        
-        i = i + 1;
-        
-    }
-    
-    return null;
-    
-}*/
-
-
 /* function findEmptyRC (arr, row, col, range) {
     
     let i = 0;
@@ -359,17 +381,9 @@ function init () {
 } */
 
 
-/*function getRandomInt(_min, max) {
-    
-    const min = Math.ceil(_min);
-    return Math.floor (Math.random() * (Math.floor(max) - min)) + min;
-    
-}*/
-
-
 module.exports = init;
 
-},{"./canvas.js":1,"./config.js":2,"./entities.js":3}],5:[function(require,module,exports){
+},{"./canvas.js":1,"./config.js":2,"./entities.js":3,"./impure.js":4}],6:[function(require,module,exports){
 // const log = require ('./canvas.js').logMessage;
 
 function getRowColToIndex (maxRow, maxCol, row, col) {
@@ -441,5 +455,5 @@ module.exports = {
     })
 };
 
-},{}]},{},[4])(4)
+},{}]},{},[5])(5)
 });
