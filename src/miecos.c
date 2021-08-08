@@ -1,5 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+#include <ncurses.h>
+#include <stdlib.h>
+#include <time.h>
 
+int SCREENWIDTH = 150;
+int SCREENHEIGHT = 40;
+int ARBLIMIT = 100;
+int MAXGENESIZE = 80;
+int MAXTRIES = 5;
 
+char BLANKCHAR = '.';
+char GRASSCHAR = '|';
+char RABBITCHAR = 'r';
+char FOXCHAR = 'F';
+
+int MAXGRASSHEALTH = 20;
+int MAXRABBITHEALTH = 40;
+int MAXFOXHEALTH = 100;
+
+int INITGRASS = 200;
+int INITRABBITS = 50;
+int INITFOXES = 0;
+
+int Speed = 1;
+int Mode = 2;
+
+int TOTALRUNS = 0;
+int MAXPLAYERS = 10000;
+int GRASSNUTRITION = 10;
+int RABBITNUTRITION = 60;
 
 typedef enum {
   AllOK = 0,
@@ -117,6 +147,8 @@ FILE *OutputFile;
 
 int main(int argc, char *argv[])
 {
+  printf("Here we go!");
+  
   int i = 0, j = 0, Iterations = 0, StillAlive = 0;
 
   ReturnState ReturnedError = AllOK;
@@ -128,7 +160,6 @@ int main(int argc, char *argv[])
     if (!(strcmp ("--help", argv[i]))) {
       printf ("Usage: miecos [--help | --version | OPTION]\n");
       printf ("Example: miecos --mode=ncurses --speed=fast --runlimit 500 --width 120 --height 40 --grass 200 --rabbits 100 --foxes 300 --maxplayers 3000 --genesize 100\n\n");
-
       printf ("  --help                show this message\n");
       printf ("  --version             show version number\n");
       printf ("  --mode=xxx            choose display mode, xxx can be 'ncurses' to use the ncurses library for\n");
@@ -477,6 +508,8 @@ int main(int argc, char *argv[])
     i++;
   }
 
+  printf("Still going");
+  
   if ((INITGRASS + INITRABBITS + INITFOXES) > MAXPLAYERS) {
     if (Mode == 2) {
       endwin();
@@ -586,6 +619,8 @@ int main(int argc, char *argv[])
   } // for (i=0; i< INITFOXES; i++)     
   
 
+  printf("Drawing screen");
+  
   if (Mode == 2) {
     // Now we put it all on the screen ...    
     for (j=0; j<SCREENHEIGHT; j++) {
@@ -2005,7 +2040,7 @@ int Rand (int MaxNum)
 //void LogStat (char *Message, int Stat)
 //{
 //  static int LogCalls;
-/*
+/ *
   if ((OutputFile = fopen (OUTPUTFILENAME, "a")) != NULL) {
     LogCalls ++;
     //fprintf (OutputFile, "%i calls made to LogStat.\n", LogCalls);
